@@ -1,26 +1,161 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --paper-bg: #FBF9F5;
+    --paper-card: #FFFFFF;
+    --paper-linen: #F4EFE6;
+    --paper-kraft: #ECE3D4;
+    --paper-kraft-dark: #DECDB8;
+    --paper-yellow: #FEF9E7;
+    --paper-yellow-border: #F0E3B6;
+    --paper-border: #E0D5C3;
+    --paper-border-dark: #C9BC9F;
+    --paper-ruled: rgba(70, 95, 130, 0.09);
+    --paper-accounting: rgba(195, 75, 65, 0.15);
+
+    --ink-primary: #181C24;
+    --ink-secondary: #4A5260;
+    --ink-muted: #7E8A9B;
+    --ink-faint: #A6B1C0;
+
+    --accent-terracotta: #C86446;
+    --accent-terracotta-bg: #FDF1ED;
+    --accent-sage: #5B7553;
+    --accent-sage-bg: #F0F6EE;
+    --accent-mustard: #D69336;
+    --accent-mustard-bg: #FDF7EB;
+    --accent-navy: #2C4258;
+    --accent-navy-bg: #EDF3F9;
+    --accent-crimson: #A63838;
+    --accent-crimson-bg: #FDF0F0;
+  }
+
+  body {
+    background-color: var(--paper-bg);
+    color: var(--ink-primary);
+    font-family: var(--font-geist-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* Editorial Serif Font utility */
+.font-editorial {
+  font-family: var(--font-fraunces), Georgia, "Times New Roman", serif;
+  font-optical-sizing: auto;
 }
+
+/* Tactile Papercraft Shadows */
+.paper-shadow-sm {
+  box-shadow: 0 1px 3px rgba(45, 35, 20, 0.05), 0 1px 2px rgba(45, 35, 20, 0.03);
+}
+
+.paper-shadow {
+  box-shadow: 0 1px 3px rgba(45, 35, 20, 0.06), 0 6px 14px rgba(45, 35, 20, 0.07);
+}
+
+.paper-shadow-lg {
+  box-shadow: 0 2px 5px rgba(45, 35, 20, 0.05), 0 12px 28px rgba(45, 35, 20, 0.10);
+}
+
+.paper-shadow-card {
+  box-shadow: 0 1px 3px rgba(35, 25, 15, 0.04), 0 4px 10px rgba(35, 25, 15, 0.06);
+}
+
+/* Subtle Card Lift */
+.paper-lift {
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.paper-lift:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 3px 6px rgba(45, 35, 20, 0.06), 0 10px 20px rgba(45, 35, 20, 0.09);
+}
+
+/* Ledger paper ruled background */
+.ledger-ruled {
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent 0px,
+    transparent 27px,
+    var(--paper-ruled) 28px
+  );
+  background-size: 100% 28px;
+}
+
+/* Legal yellow pad with left margin rule */
+.legal-pad-ruled {
+  background-color: var(--paper-yellow);
+  background-image: 
+    linear-gradient(to right, transparent 38px, var(--paper-accounting) 39px, transparent 40px),
+    repeating-linear-gradient(to bottom, transparent 0px, transparent 27px, var(--paper-ruled) 28px);
+  background-size: 100% 100%, 100% 28px;
+}
+
+/* Drafting Grid / Blueprint pattern */
+.drafting-grid {
+  background-image: 
+    linear-gradient(to right, rgba(44, 66, 88, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(44, 66, 88, 0.05) 1px, transparent 1px);
+  background-size: 16px 16px;
+}
+
+/* Stitched border for bookbinding */
+.book-spine-stitch {
+  border-left: 2px dashed rgba(80, 60, 40, 0.25);
+}
+
+/* Rubber Stamp Styling */
+.stamp-chip {
+  position: relative;
+  font-family: var(--font-geist-mono), Courier, monospace;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border-width: 1.5px;
+  border-style: solid;
+  border-radius: 4px;
+}
+
+/* Papercraft Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #D8CEBD;
+  border-radius: 9999px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #C4B6A0;
+}
+
+/* Clean accessible focus ring in terracotta */
+*:focus-visible {
+  outline: 2px solid var(--accent-terracotta);
+  outline-offset: 1px;
+}
+
+/* Hide Next.js floating dev indicator icon on screen */
+nextjs-portal,
+[data-nextjs-dev-indicator],
+[data-nextjs-toast],
+div[data-nextjs-route-announcer] + * {
+  /* Prevent dev indicator overlay */
+}
+
+nextjs-portal {
+  display: none !important;
+}
+
