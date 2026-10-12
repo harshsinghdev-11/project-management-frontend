@@ -1,8 +1,3 @@
-/**
- * Project Camp API Types & Contracts
- * Based on API_CONTRACTS.md v1.1.0
- */
-
 export type UserRole = "admin" | "project_admin" | "member";
 
 export type TaskStatus = "todo" | "in_progress" | "done";
