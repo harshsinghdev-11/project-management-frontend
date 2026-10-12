@@ -15,31 +15,31 @@ export function Header({ breadcrumbs = [], actions }: HeaderProps) {
 
   return (
     <header
-      className="h-16 px-6 border-b border-[#DDD3C4] bg-[#F9F6F0]/95 backdrop-blur-sm flex items-center justify-between shrink-0 select-none z-10"
+      className="h-14 sm:h-16 px-3.5 sm:px-6 border-b border-[#DDD3C4] bg-[#F9F6F0]/95 backdrop-blur-sm flex items-center justify-between shrink-0 select-none z-10 gap-2"
       style={{
         boxShadow: "0 1px 4px rgba(45, 35, 20, 0.04)",
       }}
     >
       {/* Breadcrumb Bookmark */}
-      <nav className="flex items-center gap-2 text-xs text-[#6A788A]">
+      <nav className="flex items-center gap-1.5 sm:gap-2 text-xs text-[#6A788A] min-w-0 overflow-hidden">
         <Link
           href="/projects"
-          className="hover:text-[#1E2229] transition font-bold font-editorial text-sm text-[#4E4133]"
+          className="hover:text-[#1E2229] transition font-bold font-editorial text-xs sm:text-sm text-[#4E4133] shrink-0"
         >
           Projects
         </Link>
         {breadcrumbs.map((crumb, idx) => (
           <React.Fragment key={idx}>
-            <span className="text-[#A49682] font-mono text-sm">/</span>
+            <span className="text-[#A49682] font-mono text-xs sm:text-sm shrink-0">/</span>
             {crumb.href ? (
               <Link
                 href={crumb.href}
-                className="hover:text-[#1E2229] transition font-medium text-[#554737]"
+                className="hover:text-[#1E2229] transition font-medium text-[#554737] text-xs sm:text-sm truncate"
               >
                 {crumb.label}
               </Link>
             ) : (
-              <span className="text-[#1E2229] font-editorial text-sm font-bold truncate max-w-xs">
+              <span className="text-[#1E2229] font-editorial text-xs sm:text-sm font-bold truncate max-w-[110px] xs:max-w-[160px] sm:max-w-xs">
                 {crumb.label}
               </span>
             )}
@@ -48,7 +48,7 @@ export function Header({ breadcrumbs = [], actions }: HeaderProps) {
       </nav>
 
       {/* Header Actions */}
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-2 sm:gap-3 shrink-0">
         {actions}
       </div>
     </header>

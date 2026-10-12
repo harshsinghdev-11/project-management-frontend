@@ -68,23 +68,23 @@ export function InviteMemberModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-xs animate-in fade-in duration-150">
-      <div className="relative w-full max-w-md bg-[#FAF7F0] border border-[#DDD3C4] rounded-2xl p-6 paper-shadow-lg">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/40 backdrop-blur-xs animate-in fade-in duration-150">
+      <div className="relative w-full max-w-md max-h-[90vh] overflow-y-auto bg-[#FAF7F0] border border-[#DDD3C4] rounded-2xl p-4 sm:p-6 paper-shadow-lg">
         {/* Brass Paperclip accent */}
-        <div className="absolute -top-3.5 right-6 z-10">
+        <div className="absolute -top-3.5 right-6 z-10 hidden sm:block">
           <Paperclip color="brass" size="sm" rotation={-10} />
         </div>
 
-        <div className="flex items-center justify-between pb-3.5 border-b border-[#DDD3C4] mb-5">
+        <div className="flex items-center justify-between pb-3 sm:pb-3.5 border-b border-[#DDD3C4] mb-4 sm:mb-5">
           <div className="flex items-center gap-2.5">
             <div className="p-2 bg-[#EFE6D6] rounded-xl text-[#7A4E2B] border border-[#DDD0BC] shadow-2xs">
               <UserPlus className="w-4 h-4" />
             </div>
             <div>
-              <h2 className="font-editorial text-base font-bold text-[#1E2229]">
+              <h2 className="font-editorial text-sm sm:text-base font-bold text-[#1E2229]">
                 Invite Team Member
               </h2>
-              <p className="text-xs text-[#7A6B58]">
+              <p className="text-[11px] sm:text-xs text-[#7A6B58]">
                 Give a registered user access to this project
               </p>
             </div>
@@ -103,7 +103,7 @@ export function InviteMemberModal({
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-3.5 sm:space-y-4">
           <div>
             <label className="block font-editorial text-xs font-bold text-[#4E4133] mb-1.5">
               Member Email Address <span className="text-[#C86446]">*</span>
@@ -116,9 +116,9 @@ export function InviteMemberModal({
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="colleague@example.com"
-                className="w-full pl-9 pr-3.5 py-2.5 bg-[#FFFFFF] border border-[#DDD0BC] rounded-xl text-sm text-[#1E2229] placeholder-[#9E907E] focus:border-[#C86446] focus:outline-hidden transition shadow-2xs"
+                className="w-full pl-9 pr-3.5 py-2 sm:py-2.5 bg-[#FFFFFF] border border-[#DDD0BC] rounded-xl text-base sm:text-sm text-[#1E2229] placeholder-[#9E907E] focus:border-[#C86446] focus:outline-hidden transition shadow-2xs font-sans"
               />
-              <Mail className="w-4 h-4 absolute left-3 top-3 text-[#9E907E]" />
+              <Mail className="w-4 h-4 absolute left-3 top-2.5 sm:top-3 text-[#9E907E]" />
             </div>
             <p className="text-[11px] text-[#7A6B58] mt-1 font-mono">
               Note: User must already have a registered account.
@@ -129,7 +129,7 @@ export function InviteMemberModal({
             <label className="block font-editorial text-xs font-bold text-[#4E4133] mb-1.5">
               Project Role
             </label>
-            <div className="grid grid-cols-3 gap-2">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
               <button
                 type="button"
                 onClick={() => setRole("member")}

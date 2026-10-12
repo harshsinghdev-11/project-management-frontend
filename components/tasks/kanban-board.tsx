@@ -63,14 +63,14 @@ export function KanbanBoard({
   ];
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 items-start">
       {columns.map((col) => {
         const columnTasks = tasks.filter((t) => t.status === col.status);
 
         return (
           <div
             key={col.status}
-            className={`relative flex flex-col rounded-2xl border ${col.borderColor} ${col.boardBg} paper-shadow min-h-[520px] overflow-hidden`}
+            className={`relative flex flex-col rounded-2xl border ${col.borderColor} ${col.boardBg} paper-shadow min-h-[360px] md:min-h-[520px] overflow-hidden`}
           >
             {/* Top Wooden Clipboard Clip Visual Accent */}
             <div className="flex justify-center pt-2">
@@ -83,7 +83,7 @@ export function KanbanBoard({
             </div>
 
             {/* Column Header */}
-            <div className={`flex items-center justify-between p-3.5 px-4 ${col.headerBg}`}>
+            <div className={`flex items-center justify-between p-3 sm:p-3.5 px-3.5 sm:px-4 ${col.headerBg}`}>
               <div className="flex items-center gap-2.5">
                 {col.icon}
                 <div>
@@ -109,7 +109,7 @@ export function KanbanBoard({
             </div>
 
             {/* Task Column */}
-            <div className="flex-1 p-3.5 space-y-3 overflow-y-auto max-h-[72vh] ledger-ruled">
+            <div className="flex-1 p-3 sm:p-3.5 space-y-3 overflow-y-auto max-h-[60vh] md:max-h-[72vh] ledger-ruled">
               {columnTasks.length === 0 ? (
                 <div className="py-12 text-center border-2 border-dashed border-[#E0D5C3] rounded-xl text-[#9A8B7A] text-xs font-editorial italic bg-white/40">
                   No tasks in this column

@@ -58,9 +58,9 @@ function ResetPasswordForm({
   };
 
   return (
-    <div className="relative bg-[#FFFFFF] border border-[#DDD3C4] rounded-2xl p-7 sm:p-8 paper-shadow">
+    <div className="relative bg-[#FFFFFF] border border-[#DDD3C4] rounded-2xl p-5 sm:p-8 paper-shadow">
       {/* Decorative brass clip */}
-      <div className="absolute -top-3.5 right-6 z-10">
+      <div className="absolute -top-3.5 right-6 z-10 hidden xs:block">
         <Paperclip color="brass" size="sm" rotation={-10} />
       </div>
 
@@ -86,8 +86,8 @@ function ResetPasswordForm({
         </div>
       ) : (
         <>
-          <div className="mb-6">
-            <h2 className="font-editorial text-xl font-bold text-[#1E2229]">
+          <div className="mb-5 sm:mb-6">
+            <h2 className="font-editorial text-lg sm:text-xl font-bold text-[#1E2229]">
               Set New Password
             </h2>
             <p className="text-xs text-[#6A788A] mt-1 font-sans">
@@ -113,7 +113,7 @@ function ResetPasswordForm({
                   value={newPassword}
                   onChange={(e) => setNewPassword(e.target.value)}
                   placeholder="••••••••"
-                  className="w-full pl-9 pr-3.5 py-2.5 bg-[#FAF7F0] border border-[#DDD0BC] rounded-xl text-sm text-[#1E2229] placeholder-[#9E907E] focus:border-[#C86446] focus:outline-hidden transition shadow-2xs"
+                  className="w-full pl-9 pr-3.5 py-2.5 bg-[#FAF7F0] border border-[#DDD0BC] rounded-xl text-base sm:text-sm text-[#1E2229] placeholder-[#9E907E] focus:border-[#C86446] focus:outline-hidden transition shadow-2xs"
                 />
                 <Lock className="w-4 h-4 absolute left-3 top-3 text-[#9E907E]" />
               </div>
@@ -130,7 +130,7 @@ function ResetPasswordForm({
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   placeholder="••••••••"
-                  className="w-full pl-9 pr-3.5 py-2.5 bg-[#FAF7F0] border border-[#DDD0BC] rounded-xl text-sm text-[#1E2229] placeholder-[#9E907E] focus:border-[#C86446] focus:outline-hidden transition shadow-2xs"
+                  className="w-full pl-9 pr-3.5 py-2.5 bg-[#FAF7F0] border border-[#DDD0BC] rounded-xl text-base sm:text-sm text-[#1E2229] placeholder-[#9E907E] focus:border-[#C86446] focus:outline-hidden transition shadow-2xs"
                 />
                 <Lock className="w-4 h-4 absolute left-3 top-3 text-[#9E907E]" />
               </div>
@@ -166,8 +166,8 @@ export default function ResetPasswordPage({
   params: Promise<{ token: string }>;
 }) {
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 bg-[#FBF9F5] text-[#1E2229]">
-      <div className="w-full max-w-md">
+    <div className="min-h-screen flex items-center justify-center p-3.5 sm:p-4 bg-[#FBF9F5] text-[#1E2229]">
+      <div className="w-full max-w-md my-auto">
         {/* Brand header */}
         <div className="text-center mb-6">
           <div className="inline-flex items-center justify-center mb-2">

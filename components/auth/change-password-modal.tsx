@@ -59,23 +59,23 @@ export function ChangePasswordModal({ isOpen, onClose }: ChangePasswordModalProp
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-xs animate-in fade-in duration-150">
-      <div className="relative w-full max-w-md bg-[#FAF7F0] border border-[#DDD3C4] rounded-2xl p-6 paper-shadow-lg">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/40 backdrop-blur-xs animate-in fade-in duration-150">
+      <div className="relative w-full max-w-md max-h-[90vh] overflow-y-auto bg-[#FAF7F0] border border-[#DDD3C4] rounded-2xl p-4 sm:p-6 paper-shadow-lg">
         {/* Brass Paperclip accent */}
-        <div className="absolute -top-3.5 right-6 z-10">
+        <div className="absolute -top-3.5 right-6 z-10 hidden sm:block">
           <Paperclip color="brass" size="sm" rotation={-12} />
         </div>
 
-        <div className="flex items-center justify-between pb-3.5 border-b border-[#DDD3C4] mb-5">
+        <div className="flex items-center justify-between pb-3 sm:pb-3.5 border-b border-[#DDD3C4] mb-4 sm:mb-5">
           <div className="flex items-center gap-2.5">
             <div className="p-2 bg-[#EFE6D6] rounded-xl text-[#7A4E2B] border border-[#DDD0BC] shadow-2xs">
               <KeyRound className="w-4 h-4" />
             </div>
             <div>
-              <h2 className="font-editorial text-base font-bold text-[#1E2229] leading-tight">
+              <h2 className="font-editorial text-sm sm:text-base font-bold text-[#1E2229] leading-tight">
                 Change Password
               </h2>
-              <p className="text-xs text-[#7A6B58] font-normal">
+              <p className="text-[11px] sm:text-xs text-[#7A6B58] font-normal">
                 Update your account login password
               </p>
             </div>
@@ -94,7 +94,7 @@ export function ChangePasswordModal({ isOpen, onClose }: ChangePasswordModalProp
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-3.5 sm:space-y-4">
           <div>
             <label className="block font-editorial text-xs font-bold text-[#4E4133] mb-1.5">
               Current Password
@@ -106,9 +106,9 @@ export function ChangePasswordModal({ isOpen, onClose }: ChangePasswordModalProp
                 value={oldPassword}
                 onChange={(e) => setOldPassword(e.target.value)}
                 placeholder="••••••••"
-                className="w-full px-3.5 py-2.5 bg-[#FFFFFF] border border-[#DDD0BC] rounded-xl text-sm text-[#1E2229] placeholder-[#A6B1C0] focus:border-[#C86446] focus:outline-hidden transition shadow-2xs"
+                className="w-full px-3.5 py-2 sm:py-2.5 bg-[#FFFFFF] border border-[#DDD0BC] rounded-xl text-base sm:text-sm text-[#1E2229] placeholder-[#A6B1C0] focus:border-[#C86446] focus:outline-hidden transition shadow-2xs font-sans"
               />
-              <Lock className="w-4 h-4 absolute right-3.5 top-3 text-[#A6B1C0]" />
+              <Lock className="w-4 h-4 absolute right-3.5 top-2.5 sm:top-3 text-[#A6B1C0]" />
             </div>
           </div>
 
@@ -123,9 +123,9 @@ export function ChangePasswordModal({ isOpen, onClose }: ChangePasswordModalProp
                 value={newPassword}
                 onChange={(e) => setNewPassword(e.target.value)}
                 placeholder="••••••••"
-                className="w-full px-3.5 py-2.5 bg-[#FFFFFF] border border-[#DDD0BC] rounded-xl text-sm text-[#1E2229] placeholder-[#A6B1C0] focus:border-[#C86446] focus:outline-hidden transition shadow-2xs"
+                className="w-full px-3.5 py-2 sm:py-2.5 bg-[#FFFFFF] border border-[#DDD0BC] rounded-xl text-base sm:text-sm text-[#1E2229] placeholder-[#A6B1C0] focus:border-[#C86446] focus:outline-hidden transition shadow-2xs font-sans"
               />
-              <Lock className="w-4 h-4 absolute right-3.5 top-3 text-[#A6B1C0]" />
+              <Lock className="w-4 h-4 absolute right-3.5 top-2.5 sm:top-3 text-[#A6B1C0]" />
             </div>
           </div>
 
@@ -140,9 +140,9 @@ export function ChangePasswordModal({ isOpen, onClose }: ChangePasswordModalProp
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 placeholder="••••••••"
-                className="w-full px-3.5 py-2.5 bg-[#FFFFFF] border border-[#DDD0BC] rounded-xl text-sm text-[#1E2229] placeholder-[#A6B1C0] focus:border-[#C86446] focus:outline-hidden transition shadow-2xs"
+                className="w-full px-3.5 py-2 sm:py-2.5 bg-[#FFFFFF] border border-[#DDD0BC] rounded-xl text-base sm:text-sm text-[#1E2229] placeholder-[#A6B1C0] focus:border-[#C86446] focus:outline-hidden transition shadow-2xs font-sans"
               />
-              <Lock className="w-4 h-4 absolute right-3.5 top-3 text-[#A6B1C0]" />
+              <Lock className="w-4 h-4 absolute right-3.5 top-2.5 sm:top-3 text-[#A6B1C0]" />
             </div>
           </div>
 

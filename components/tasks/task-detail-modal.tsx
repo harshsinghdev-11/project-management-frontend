@@ -196,22 +196,22 @@ export function TaskDetailModal({
   const progressPercent = totalSubtasks > 0 ? Math.round((completedSubtasks / totalSubtasks) * 100) : 0;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/45 backdrop-blur-xs animate-in fade-in duration-150">
-      <div className="relative w-full max-w-2xl max-h-[90vh] bg-[#FFFFFF] border border-[#DDD3C4] rounded-2xl flex flex-col paper-shadow-lg overflow-hidden">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/45 backdrop-blur-xs animate-in fade-in duration-150">
+      <div className="relative w-full max-w-2xl max-h-[92vh] bg-[#FFFFFF] border border-[#DDD3C4] rounded-2xl flex flex-col paper-shadow-lg overflow-hidden">
         {/* Manila file folder tab shape */}
         <div
-          className="absolute top-0 left-6 h-3 w-28 rounded-b-md bg-[#ECE2D0] border-x border-b border-[#D8CABE]"
+          className="absolute top-0 left-6 h-3 w-28 rounded-b-md bg-[#ECE2D0] border-x border-b border-[#D8CABE] hidden sm:block"
           aria-hidden="true"
         />
 
         {/* Paperclip in corner */}
-        <div className="absolute top-2 right-12 z-10">
+        <div className="absolute top-2 right-12 z-10 hidden sm:block">
           <Paperclip color="brass" size="sm" rotation={-10} />
         </div>
 
         {/* Header */}
-        <div className="flex items-center justify-between p-4 px-6 pt-5 border-b border-[#EAE0D2] bg-[#FAF7F0] shrink-0">
-          <div className="flex items-center gap-2.5 text-xs text-[#6A788A] font-mono">
+        <div className="flex items-center justify-between p-3.5 px-4 sm:p-4 sm:px-6 pt-3.5 sm:pt-5 border-b border-[#EAE0D2] bg-[#FAF7F0] shrink-0">
+          <div className="flex items-center gap-2 text-xs text-[#6A788A] font-mono">
             <span className="font-bold text-[#8C7A65]">TASK #{taskId.slice(-5).toUpperCase()}</span>
             <span>•</span>
             <StatusBadge status={status} size="sm" />
@@ -235,15 +235,15 @@ export function TaskDetailModal({
         ) : errorMsg ? (
           <div className="p-8 text-center text-[#A83820] text-xs font-mono bg-[#FDF0ED]">{errorMsg}</div>
         ) : (
-          <div className="flex-1 overflow-y-auto p-6 space-y-6 ledger-ruled">
+          <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-4 sm:space-y-6 ledger-ruled">
             {/* Title & Status */}
-            <div className="space-y-3 bg-[#FFFFFF]/90 p-4 rounded-xl border border-[#EAE0D2] paper-shadow-sm">
+            <div className="space-y-3 bg-[#FFFFFF]/90 p-3.5 sm:p-4 rounded-xl border border-[#EAE0D2] paper-shadow-sm">
               <input
                 type="text"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 onBlur={handleUpdateTask}
-                className="w-full font-editorial text-xl font-bold text-[#1E2229] bg-transparent border-b border-dashed border-[#DDD0BC] hover:border-[#C86446] focus:border-[#C86446] focus:bg-[#FAF7F2] rounded px-1.5 py-1 transition"
+                className="w-full font-editorial text-lg sm:text-xl font-bold text-[#1E2229] bg-transparent border-b border-dashed border-[#DDD0BC] hover:border-[#C86446] focus:border-[#C86446] focus:bg-[#FAF7F2] rounded px-1.5 py-1 transition font-sans"
                 placeholder="Task title..."
               />
 
@@ -255,7 +255,7 @@ export function TaskDetailModal({
                   <select
                     value={status}
                     onChange={(e) => handleStatusChange(e.target.value as TaskStatus)}
-                    className="w-full px-3 py-1.5 bg-[#FAF7F2] border border-[#DDD3C4] rounded-xl text-xs font-mono font-bold text-[#1E2229] focus:border-[#C86446] transition cursor-pointer"
+                    className="w-full px-3 py-1.5 bg-[#FAF7F2] border border-[#DDD3C4] rounded-xl text-base sm:text-xs font-mono font-bold text-[#1E2229] focus:border-[#C86446] transition cursor-pointer"
                   >
                     <option value="todo">TO DO</option>
                     <option value="in_progress">IN PROGRESS</option>
@@ -273,7 +273,7 @@ export function TaskDetailModal({
                       setAssignedToId(e.target.value);
                       setTimeout(handleUpdateTask, 100);
                     }}
-                    className="w-full px-3 py-1.5 bg-[#FAF7F2] border border-[#DDD3C4] rounded-xl text-xs font-medium text-[#1E2229] focus:border-[#C86446] transition cursor-pointer"
+                    className="w-full px-3 py-1.5 bg-[#FAF7F2] border border-[#DDD3C4] rounded-xl text-base sm:text-xs font-medium text-[#1E2229] focus:border-[#C86446] transition cursor-pointer"
                   >
                     <option value="">Unassigned</option>
                     {members.map((m) => {
@@ -303,7 +303,7 @@ export function TaskDetailModal({
                 onChange={(e) => setDescription(e.target.value)}
                 onBlur={handleUpdateTask}
                 placeholder="Task description, acceptance criteria, or reference notes..."
-                className="w-full px-3.5 py-2.5 bg-[#FAF7F2] border border-[#DDD3C4] rounded-xl text-xs text-[#1E2229] placeholder-[#8C98A8] focus:border-[#C86446] focus:bg-[#FFFFFF] transition resize-none font-sans leading-relaxed"
+                className="w-full px-3.5 py-2.5 bg-[#FAF7F2] border border-[#DDD3C4] rounded-xl text-base sm:text-xs text-[#1E2229] placeholder-[#8C98A8] focus:border-[#C86446] focus:bg-[#FFFFFF] transition resize-none font-sans leading-relaxed"
               />
             </div>
 
@@ -380,7 +380,7 @@ export function TaskDetailModal({
                   placeholder="Add a new checklist item..."
                   value={newSubtaskTitle}
                   onChange={(e) => setNewSubtaskTitle(e.target.value)}
-                  className="flex-1 px-3 py-2 bg-[#FFFFFF] border border-[#DDD3C4] rounded-xl text-xs text-[#1E2229] placeholder-[#8C98A8] focus:border-[#C86446] transition font-sans"
+                  className="flex-1 px-3 py-2 bg-[#FFFFFF] border border-[#DDD3C4] rounded-xl text-base sm:text-xs text-[#1E2229] placeholder-[#8C98A8] focus:border-[#C86446] transition font-sans"
                 />
                 <button
                   type="submit"

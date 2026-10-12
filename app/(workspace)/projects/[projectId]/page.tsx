@@ -177,11 +177,11 @@ function ProjectWorkspaceContent({
       />
 
       {/* Project Banner & Tab Navigation */}
-      <div className="px-6 md:px-8 pt-6 pb-0 bg-[#FAF7F0] border-b border-[#DDD3C4]">
+      <div className="px-4 sm:px-6 md:px-8 pt-4 sm:pt-6 pb-0 bg-[#FAF7F0] border-b border-[#DDD3C4]">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
           <div>
-            <div className="flex items-center gap-3">
-              <h1 className="font-editorial text-2xl md:text-3xl font-black text-[#1E2229] tracking-tight">
+            <div className="flex items-center gap-2.5 sm:gap-3 flex-wrap">
+              <h1 className="font-editorial text-xl sm:text-2xl md:text-3xl font-black text-[#1E2229] tracking-tight">
                 {project.name}
               </h1>
               <RoleBadge role={currentUserRole} size="sm" />
@@ -193,11 +193,11 @@ function ProjectWorkspaceContent({
             )}
           </div>
 
-          <div className="flex items-center gap-2.5 shrink-0 flex-wrap">
+          <div className="flex items-center gap-2 sm:gap-2.5 shrink-0 flex-wrap">
             {/* Tactile "Roadmap" Switch Button */}
             <button
               onClick={() => setShowRoadmap(!showRoadmap)}
-              className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-xl text-xs font-editorial font-bold border transition cursor-pointer select-none shadow-xs ${
+              className={`inline-flex items-center gap-1.5 sm:gap-2 px-3 py-1.5 rounded-xl text-xs font-editorial font-bold border transition cursor-pointer select-none shadow-xs ${
                 showRoadmap
                   ? "bg-[#FFFFFF] border-[#C86446]/40 text-[#1E2229]"
                   : "bg-[#EFE8DC] border-[#DDD0BC] text-[#6E5E4C] hover:bg-[#F5EFE4]"
@@ -219,10 +219,10 @@ function ProjectWorkspaceContent({
             {canManageProject && (
               <button
                 onClick={() => setInviteMemberOpen(true)}
-                className="inline-flex items-center gap-1.5 px-3.5 py-2 bg-[#FFFFFF] hover:bg-[#F8F4EC] border border-[#DDD3C4] rounded-xl text-xs font-medium text-[#4A3D2D] transition cursor-pointer paper-shadow-sm font-editorial font-bold"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 sm:px-3.5 sm:py-2 bg-[#FFFFFF] hover:bg-[#F8F4EC] border border-[#DDD3C4] rounded-xl text-xs font-medium text-[#4A3D2D] transition cursor-pointer paper-shadow-sm font-editorial font-bold"
               >
                 <UserPlus className="w-3.5 h-3.5 text-[#8C5E3A]" />
-                Invite Team
+                <span>Invite Team</span>
               </button>
             )}
           </div>
@@ -240,11 +240,11 @@ function ProjectWorkspaceContent({
           </div>
         )}
 
-        {/* Tab Buttons */}
-        <div className="flex items-center gap-1.5 text-xs select-none">
+        {/* Tab Buttons with horizontal touch scrolling on mobile */}
+        <div className="flex items-center gap-1.5 text-xs select-none overflow-x-auto no-scrollbar -mx-4 px-4 sm:mx-0 sm:px-0">
           <button
             onClick={() => setActiveTab("board")}
-            className={`flex items-center gap-2 px-4 py-2 rounded-t-xl font-editorial font-bold transition cursor-pointer border-t border-x ${
+            className={`shrink-0 flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 rounded-t-xl font-editorial font-bold transition cursor-pointer border-t border-x ${
               activeTab === "board"
                 ? "bg-[#FFFFFF] text-[#1E2229] border-[#DDD3C4] shadow-xs translate-y-[1px]"
                 : "bg-[#EFE8DC] text-[#6E5E4C] border-[#DDD0BC] hover:bg-[#F5EFE4] hover:text-[#1E2229]"
@@ -259,7 +259,7 @@ function ProjectWorkspaceContent({
 
           <button
             onClick={() => setActiveTab("list")}
-            className={`flex items-center gap-2 px-4 py-2 rounded-t-xl font-editorial font-bold transition cursor-pointer border-t border-x ${
+            className={`shrink-0 flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 rounded-t-xl font-editorial font-bold transition cursor-pointer border-t border-x ${
               activeTab === "list"
                 ? "bg-[#FFFFFF] text-[#1E2229] border-[#DDD3C4] shadow-xs translate-y-[1px]"
                 : "bg-[#EFE8DC] text-[#6E5E4C] border-[#DDD0BC] hover:bg-[#F5EFE4] hover:text-[#1E2229]"
@@ -271,7 +271,7 @@ function ProjectWorkspaceContent({
 
           <button
             onClick={() => setActiveTab("members")}
-            className={`flex items-center gap-2 px-4 py-2 rounded-t-xl font-editorial font-bold transition cursor-pointer border-t border-x ${
+            className={`shrink-0 flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 rounded-t-xl font-editorial font-bold transition cursor-pointer border-t border-x ${
               activeTab === "members"
                 ? "bg-[#FFFFFF] text-[#1E2229] border-[#DDD3C4] shadow-xs translate-y-[1px]"
                 : "bg-[#EFE8DC] text-[#6E5E4C] border-[#DDD0BC] hover:bg-[#F5EFE4] hover:text-[#1E2229]"
@@ -286,7 +286,7 @@ function ProjectWorkspaceContent({
 
           <button
             onClick={() => setActiveTab("settings")}
-            className={`flex items-center gap-2 px-4 py-2 rounded-t-xl font-editorial font-bold transition cursor-pointer border-t border-x ${
+            className={`shrink-0 flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 rounded-t-xl font-editorial font-bold transition cursor-pointer border-t border-x ${
               activeTab === "settings"
                 ? "bg-[#FFFFFF] text-[#1E2229] border-[#DDD3C4] shadow-xs translate-y-[1px]"
                 : "bg-[#EFE8DC] text-[#6E5E4C] border-[#DDD0BC] hover:bg-[#F5EFE4] hover:text-[#1E2229]"
@@ -299,7 +299,7 @@ function ProjectWorkspaceContent({
       </div>
 
       {/* Main Workspace Body */}
-      <div className="flex-1 p-6 md:p-8 overflow-y-auto">
+      <div className="flex-1 p-4 sm:p-6 md:p-8 overflow-y-auto">
         {activeTab === "board" && (
           <KanbanBoard
             tasks={tasks}

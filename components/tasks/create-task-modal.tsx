@@ -74,21 +74,21 @@ export function CreateTaskModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-xs animate-in fade-in duration-150">
-      <div className="relative w-full max-w-lg bg-[#FFFFFF] border border-[#DDD3C4] rounded-2xl p-6 paper-shadow-lg">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/40 backdrop-blur-xs animate-in fade-in duration-150">
+      <div className="relative w-full max-w-lg max-h-[90vh] overflow-y-auto bg-[#FFFFFF] border border-[#DDD3C4] rounded-2xl p-4 sm:p-6 paper-shadow-lg">
         {/* Brass Paperclip accent */}
-        <div className="absolute top-2 right-12 z-10">
+        <div className="absolute top-2 right-12 z-10 hidden sm:block">
           <Paperclip color="brass" size="sm" rotation={10} />
         </div>
 
-        <div className="flex items-center justify-between pb-4 border-b border-[#EAE0D2] mb-5">
+        <div className="flex items-center justify-between pb-3 sm:pb-4 border-b border-[#EAE0D2] mb-4 sm:mb-5">
           <div className="flex items-center gap-2.5">
             <div className="p-2 bg-[#F6EFE5] rounded-xl text-[#7A4E2B] border border-[#E0D2C0]">
-              <CheckSquare className="w-5 h-5" />
+              <CheckSquare className="w-4 h-4 sm:w-5 sm:h-5" />
             </div>
             <div>
-              <h2 className="font-editorial text-lg font-bold text-[#1E2229]">Create Task</h2>
-              <p className="text-xs text-[#7A889B]">Add a new work item to the project board</p>
+              <h2 className="font-editorial text-base sm:text-lg font-bold text-[#1E2229]">Create Task</h2>
+              <p className="text-[11px] sm:text-xs text-[#7A889B]">Add a new work item to the project board</p>
             </div>
           </div>
           <button
@@ -105,7 +105,7 @@ export function CreateTaskModal({
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-3.5 sm:space-y-4">
           <div>
             <label className="block text-xs font-bold text-[#3E3428] font-editorial mb-1.5">
               Task Title <span className="text-[#C86446]">*</span>
@@ -117,7 +117,7 @@ export function CreateTaskModal({
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               placeholder="e.g. Design responsive navbar, Write JWT middleware"
-              className="w-full px-3.5 py-2.5 bg-[#FAF7F2] border border-[#DDD3C4] rounded-xl text-sm text-[#1E2229] placeholder-[#8C98A8] focus:border-[#C86446] focus:bg-[#FFFFFF] focus:ring-1 focus:ring-[#C86446] transition font-sans"
+              className="w-full px-3.5 py-2 sm:py-2.5 bg-[#FAF7F2] border border-[#DDD3C4] rounded-xl text-base sm:text-sm text-[#1E2229] placeholder-[#8C98A8] focus:border-[#C86446] focus:bg-[#FFFFFF] focus:ring-1 focus:ring-[#C86446] transition font-sans"
             />
           </div>
 
@@ -130,7 +130,7 @@ export function CreateTaskModal({
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               placeholder="Details, acceptance criteria, or reference notes..."
-              className="w-full px-3.5 py-2.5 bg-[#FAF7F2] border border-[#DDD3C4] rounded-xl text-sm text-[#1E2229] placeholder-[#8C98A8] focus:border-[#C86446] focus:bg-[#FFFFFF] focus:ring-1 focus:ring-[#C86446] transition resize-none font-sans"
+              className="w-full px-3.5 py-2 sm:py-2.5 bg-[#FAF7F2] border border-[#DDD3C4] rounded-xl text-base sm:text-sm text-[#1E2229] placeholder-[#8C98A8] focus:border-[#C86446] focus:bg-[#FFFFFF] focus:ring-1 focus:ring-[#C86446] transition resize-none font-sans"
             />
           </div>
 
@@ -142,7 +142,7 @@ export function CreateTaskModal({
               <select
                 value={status}
                 onChange={(e) => setStatus(e.target.value as TaskStatus)}
-                className="w-full px-3 py-2 bg-[#FAF7F2] border border-[#DDD3C4] rounded-xl text-xs text-[#1E2229] font-mono font-bold focus:border-[#C86446] transition cursor-pointer"
+                className="w-full px-3 py-2 bg-[#FAF7F2] border border-[#DDD3C4] rounded-xl text-base sm:text-xs text-[#1E2229] font-mono font-bold focus:border-[#C86446] transition cursor-pointer"
               >
                 <option value="todo">To Do</option>
                 <option value="in_progress">In Progress</option>
@@ -157,7 +157,7 @@ export function CreateTaskModal({
               <select
                 value={assignedTo}
                 onChange={(e) => setAssignedTo(e.target.value)}
-                className="w-full px-3 py-2 bg-[#FAF7F2] border border-[#DDD3C4] rounded-xl text-xs text-[#1E2229] font-medium focus:border-[#C86446] transition cursor-pointer"
+                className="w-full px-3 py-2 bg-[#FAF7F2] border border-[#DDD3C4] rounded-xl text-base sm:text-xs text-[#1E2229] font-medium focus:border-[#C86446] transition cursor-pointer"
               >
                 <option value="">Unassigned</option>
                 {members.map((m) => {

@@ -68,14 +68,14 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 bg-[#FBF9F5] text-[#1E2229]">
-      <div className="w-full max-w-md">
+    <div className="min-h-screen flex items-center justify-center p-3.5 sm:p-4 bg-[#FBF9F5] text-[#1E2229]">
+      <div className="w-full max-w-md my-auto">
         {/* Brand header */}
-        <div className="text-center mb-8">
+        <div className="text-center mb-6 sm:mb-8">
           <div className="inline-flex items-center justify-center mb-2">
             <WaxSeal monogram="PC" size="md" color="#C86446" />
           </div>
-          <h1 className="font-editorial text-3xl font-black tracking-tight text-[#1E2229]">
+          <h1 className="font-editorial text-2xl sm:text-3xl font-black tracking-tight text-[#1E2229]">
             Project Camp
           </h1>
           <p className="text-xs text-[#6A788A] mt-1 font-sans">
@@ -84,14 +84,14 @@ export default function RegisterPage() {
         </div>
 
         {/* Papercraft Card */}
-        <div className="relative bg-[#FFFFFF] border border-[#DDD3C4] rounded-2xl p-7 sm:p-8 paper-shadow">
+        <div className="relative bg-[#FFFFFF] border border-[#DDD3C4] rounded-2xl p-5 sm:p-8 paper-shadow">
           {/* Decorative brass clip */}
-          <div className="absolute -top-3.5 right-6 z-10">
+          <div className="absolute -top-3.5 right-6 z-10 hidden xs:block">
             <Paperclip color="brass" size="md" rotation={8} />
           </div>
 
-          <div className="mb-6">
-            <h2 className="font-editorial text-xl font-bold text-[#1E2229]">
+          <div className="mb-5 sm:mb-6">
+            <h2 className="font-editorial text-lg sm:text-xl font-bold text-[#1E2229]">
               Create an Account
             </h2>
             <p className="text-xs text-[#6A788A] mt-1 font-sans">
@@ -105,7 +105,7 @@ export default function RegisterPage() {
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className="space-y-3.5">
+          <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-3.5">
             <div>
               <label className="block font-editorial text-xs font-bold text-[#4E4133] mb-1.5">
                 Username (min 3 characters)
@@ -117,7 +117,7 @@ export default function RegisterPage() {
                   value={username}
                   onChange={(e) => setUsername(e.target.value.toLowerCase())}
                   placeholder="alexdoe"
-                  className="w-full pl-9 pr-3.5 py-2.5 bg-[#FAF7F0] border border-[#DDD0BC] rounded-xl text-sm text-[#1E2229] placeholder-[#9E907E] focus:border-[#C86446] focus:outline-hidden transition shadow-2xs font-mono"
+                  className="w-full pl-9 pr-3.5 py-2.5 bg-[#FAF7F0] border border-[#DDD0BC] rounded-xl text-base sm:text-sm text-[#1E2229] placeholder-[#9E907E] focus:border-[#C86446] focus:outline-hidden transition shadow-2xs font-mono"
                 />
                 <span className="absolute left-3.5 top-2.5 text-xs text-[#9E907E] font-mono">@</span>
               </div>
@@ -133,7 +133,7 @@ export default function RegisterPage() {
                   value={fullName}
                   onChange={(e) => setFullName(e.target.value)}
                   placeholder="Alex Doe"
-                  className="w-full pl-9 pr-3.5 py-2.5 bg-[#FAF7F0] border border-[#DDD0BC] rounded-xl text-sm text-[#1E2229] placeholder-[#9E907E] focus:border-[#C86446] focus:outline-hidden transition shadow-2xs"
+                  className="w-full pl-9 pr-3.5 py-2.5 bg-[#FAF7F0] border border-[#DDD0BC] rounded-xl text-base sm:text-sm text-[#1E2229] placeholder-[#9E907E] focus:border-[#C86446] focus:outline-hidden transition shadow-2xs"
                 />
                 <UserIcon className="w-4 h-4 absolute left-3 top-3 text-[#9E907E]" />
               </div>
@@ -151,7 +151,7 @@ export default function RegisterPage() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="alex@example.com"
-                  className="w-full pl-9 pr-3.5 py-2.5 bg-[#FAF7F0] border border-[#DDD0BC] rounded-xl text-sm text-[#1E2229] placeholder-[#9E907E] focus:border-[#C86446] focus:outline-hidden transition shadow-2xs"
+                  className="w-full pl-9 pr-3.5 py-2.5 bg-[#FAF7F0] border border-[#DDD0BC] rounded-xl text-base sm:text-sm text-[#1E2229] placeholder-[#9E907E] focus:border-[#C86446] focus:outline-hidden transition shadow-2xs"
                 />
                 <Mail className="w-4 h-4 absolute left-3 top-3 text-[#9E907E]" />
               </div>
@@ -169,13 +169,13 @@ export default function RegisterPage() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••"
-                  className="w-full pl-9 pr-10 py-2.5 bg-[#FAF7F0] border border-[#DDD0BC] rounded-xl text-sm text-[#1E2229] placeholder-[#9E907E] focus:border-[#C86446] focus:outline-hidden transition shadow-2xs"
+                  className="w-full pl-9 pr-10 py-2.5 bg-[#FAF7F0] border border-[#DDD0BC] rounded-xl text-base sm:text-sm text-[#1E2229] placeholder-[#9E907E] focus:border-[#C86446] focus:outline-hidden transition shadow-2xs"
                 />
                 <Lock className="w-4 h-4 absolute left-3 top-3 text-[#9E907E]" />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-3 text-[#9E907E] hover:text-[#1E2229] transition cursor-pointer"
+                  className="absolute right-2.5 top-2.5 p-1 text-[#9E907E] hover:text-[#1E2229] transition cursor-pointer"
                   aria-label={showPassword ? "Hide password" : "Show password"}
                   title={showPassword ? "Hide password" : "Show password"}
                 >

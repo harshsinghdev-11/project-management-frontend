@@ -29,19 +29,19 @@ export function TaskListView({ tasks, onSelectTask, onMoveTaskStatus }: TaskList
   return (
     <div className="space-y-4">
       {/* Search & Filter Bar */}
-      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
-        <div className="relative flex-1 max-w-sm">
+      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2.5 sm:gap-3">
+        <div className="relative flex-1 w-full sm:max-w-sm">
           <Search className="w-4 h-4 absolute left-3 top-2.5 text-[#8A7966]" />
           <input
             type="text"
             placeholder="Search tasks by title or description..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full pl-9 pr-3 py-2 bg-[#FFFFFF] border border-[#DDD3C4] rounded-xl text-xs text-[#1E2229] placeholder-[#8C98A8] focus:border-[#C86446] transition paper-shadow-sm font-sans"
+            className="w-full pl-9 pr-3 py-2 bg-[#FFFFFF] border border-[#DDD3C4] rounded-xl text-base sm:text-xs text-[#1E2229] placeholder-[#8C98A8] focus:border-[#C86446] transition paper-shadow-sm font-sans"
           />
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 self-start sm:self-auto">
           <select
             value={filterStatus}
             onChange={(e) => setFilterStatus(e.target.value)}
@@ -57,8 +57,9 @@ export function TaskListView({ tasks, onSelectTask, onMoveTaskStatus }: TaskList
 
       {/* Double-ruled Accounting Ledger Table */}
       <div className="rounded-2xl border border-[#DDD3C4] bg-[#FFFFFF] paper-shadow overflow-hidden">
-        <table className="w-full text-left text-xs">
-          <thead className="bg-[#F8F4EC] text-[#4E4133] border-b-2 border-[#DDD0BC] font-editorial font-bold text-xs">
+        <div className="overflow-x-auto w-full">
+          <table className="min-w-[620px] w-full text-left text-xs">
+            <thead className="bg-[#F8F4EC] text-[#4E4133] border-b-2 border-[#DDD0BC] font-editorial font-bold text-xs">
             <tr>
               <th className="py-3 px-5">Task</th>
               <th className="py-3 px-5">Status</th>
@@ -135,7 +136,8 @@ export function TaskListView({ tasks, onSelectTask, onMoveTaskStatus }: TaskList
               })
             )}
           </tbody>
-        </table>
+          </table>
+        </div>
       </div>
     </div>
   );

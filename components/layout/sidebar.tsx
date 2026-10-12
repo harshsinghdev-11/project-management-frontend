@@ -11,6 +11,8 @@ import {
   PanelLeftClose,
   PanelLeftOpen,
   Feather,
+  Menu,
+  X,
 } from "lucide-react";
 import { useAuth } from "@/context/auth-context";
 import { UserAvatarView } from "@/components/ui/avatar";
@@ -31,12 +33,15 @@ export function Sidebar({ onOpenCreateProject }: SidebarProps) {
   const { user, logout } = useAuth();
 
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [showPasswordModal, setShowPasswordModal] = useState(false);
   const [serverOnline, setServerOnline] = useState<boolean | null>(null);
   const [recentProjects, setRecentProjects] = useState<NormalizedProject[]>([]);
 
-  // Check backend health
- 
+  // Auto-close mobile menu on route change
+  useEffect(() => {
+    setMobileMenuOpen(false);
+  }, [pathname]);
 
   // Fetch projects for sidebar shortcuts
   useEffect(() => {
@@ -68,8 +73,167 @@ export function Sidebar({ onOpenCreateProject }: SidebarProps) {
 
   return (
     <>
+      {/* MOBILE TOP NAVBAR (Visible only on < md screens) */}
+      <nav
+        aria-label="Mobile Navigation"
+        className="md:hidden w-full bg-[#ECE3D4] border-b border-[#D9CDB8] shadow-xs select-none z-30 shrink-0"
+      >
+        <div className="flex items-center justify-between h-14 px-3.5 sm:px-4">
+          {/* Brand Logo & Name */}
+          <Link
+            href="/projects"
+            className="flex items-center gap-2.5 min-w-0 group"
+            onClick={() => setMobileMenuOpen(false)}
+          >
+            <WaxSeal text="PC" size="sm" />
+            <div className="min-w-0">
+              <span className="block text-sm sm:text-base font-bold tracking-tight text-[#1E2229] font-editorial truncate group-hover:text-[#A83820] transition">
+                Project Camp
+              </span>
+              <span className="block text-[9px] text-[#7A6A55] font-mono tracking-widest uppercase truncate -mt-0.5">
+                Workspace
+              </span>
+            </div>
+          </Link>
+
+          {/* Mobile Top Actions: New Project & Menu Toggle */}
+          <div className="flex items-center gap-1.5">
+            {onOpenCreateProject && (
+              <button
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  onOpenCreateProject();
+                }}
+                className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-editorial font-bold text-white bg-[#C86446] hover:bg-[#B34F34] shadow-xs transition cursor-pointer border border-[#9A371F]"
+                title="New Project"
+                aria-label="New Project"
+              >
+                <Plus className="w-3.5 h-3.5" />
+                <span className="hidden xs:inline">New</span>
+              </button>
+            )}
+
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="p-2 rounded-lg text-[#5C4F3F] hover:text-[#1E2229] hover:bg-[#DDD0BE] transition cursor-pointer"
+              aria-label={mobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
+              title={mobileMenuOpen ? "Close menu" : "Open menu"}
+            >
+              {mobileMenuOpen ? (
+                <X className="w-5 h-5 text-[#A83820]" />
+              ) : (
+                <Menu className="w-5 h-5" />
+              )}
+            </button>
+          </div>
+        </div>
+
+        {/* Collapsible Mobile Navigation Drawer */}
+        {mobileMenuOpen && (
+          <div className="border-t border-[#D9CDB8] bg-[#FAF7F0] p-4 space-y-4 shadow-lg animate-in slide-in-from-top-2 duration-150">
+            {/* Main Navigation Links */}
+            <div className="space-y-1">
+              <Link
+                href="/projects"
+                onClick={() => setMobileMenuOpen(false)}
+                className={`flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-xs font-semibold transition ${
+                  pathname === "/projects" || pathname === "/dashboard"
+                    ? "bg-[#FFFFFF] text-[#1E2229] border border-[#D5C6AF] paper-shadow font-editorial text-[13px]"
+                    : "text-[#5C4F3F] hover:text-[#1E2229] hover:bg-[#EAE0D0]"
+                }`}
+              >
+                <FolderKanban className="w-4 h-4 shrink-0 text-[#8C5E3A]" />
+                <span>All Projects</span>
+              </Link>
+            </div>
+
+            {/* Active Projects List */}
+            <div>
+              <div className="flex items-center justify-between px-2 mb-1.5">
+                <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-[#7C6C57]">
+                  Active Projects ({recentProjects.length})
+                </span>
+              </div>
+              <div className="space-y-1 max-h-48 overflow-y-auto pr-1">
+                {recentProjects.length === 0 ? (
+                  <p className="px-2 py-1 text-[11px] text-[#8C7D6B] italic font-editorial">
+                    No projects found
+                  </p>
+                ) : (
+                  recentProjects.map((p) => {
+                    const isActive = pathname.startsWith(`/projects/${p._id}`);
+                    return (
+                      <Link
+                        key={p._id}
+                        href={`/projects/${p._id}`}
+                        onClick={() => setMobileMenuOpen(false)}
+                        className={`flex items-center justify-between px-3 py-2 rounded-xl text-xs transition ${
+                          isActive
+                            ? "bg-[#FFFFFF] text-[#1E2229] font-bold border border-[#D0BFAB] paper-shadow"
+                            : "text-[#5A4D3D] hover:text-[#1E2229] hover:bg-[#EAE0D0]"
+                        }`}
+                      >
+                        <span className="truncate">{p.name}</span>
+                        <span className="font-mono text-[10px] px-1.5 py-0.2 rounded border border-[#DACDB9] bg-[#EAE0D0] text-[#695A47]">
+                          {p.members} {p.members === 1 ? "mbr" : "mbrs"}
+                        </span>
+                      </Link>
+                    );
+                  })
+                )}
+              </div>
+            </div>
+
+            {/* User Profile & Security Strip */}
+            <div className="pt-3 border-t border-[#DCD0BE] flex items-center justify-between gap-3">
+              <div className="flex items-center gap-2.5 min-w-0">
+                <UserAvatarView
+                  name={user?.fullName || user?.username}
+                  url={user?.avatar?.url}
+                  size="sm"
+                />
+                <div className="min-w-0">
+                  <p className="text-xs font-bold text-[#1E2229] truncate font-editorial leading-tight">
+                    {user?.fullName || user?.username || "User"}
+                  </p>
+                  <p className="text-[10px] text-[#7A6C58] truncate font-mono">
+                    @{user?.username || "user"}
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-1.5 shrink-0">
+                <button
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                    setShowPasswordModal(true);
+                  }}
+                  className="flex items-center gap-1 py-1.5 px-2.5 rounded-lg text-[11px] font-medium text-[#5C4F3F] hover:text-[#1E2229] hover:bg-[#E2D6C3] border border-[#DDD0BC] transition cursor-pointer"
+                  title="Change Password"
+                >
+                  <KeyRound className="w-3.5 h-3.5 text-[#7C6C57]" />
+                  <span>Security</span>
+                </button>
+                <button
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                    handleLogout();
+                  }}
+                  className="flex items-center gap-1 py-1.5 px-2.5 rounded-lg text-[11px] font-medium text-[#A63838] hover:text-[#7A1E1E] hover:bg-[#F4DCDA] border border-[#EAC2C0] transition cursor-pointer"
+                  title="Log out"
+                >
+                  <LogOut className="w-3.5 h-3.5 text-[#A63838]" />
+                  <span>Log Out</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+      </nav>
+
+      {/* DESKTOP ASIDE SIDEBAR (Visible on md: and above) */}
       <aside
-        className={`relative flex flex-col shrink-0 h-screen bg-[#ECE3D4] border-r border-[#D9CDB8] shadow-md transition-all duration-200 select-none z-20 book-spine-stitch ${
+        className={`hidden md:flex relative flex-col shrink-0 h-screen bg-[#ECE3D4] border-r border-[#D9CDB8] shadow-md transition-all duration-200 select-none z-20 book-spine-stitch ${
           isCollapsed ? "w-16" : "w-64"
         }`}
         style={{

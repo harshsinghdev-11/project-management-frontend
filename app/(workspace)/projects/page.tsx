@@ -97,9 +97,9 @@ export default function ProjectsPage() {
         }
       />
 
-      <div className="flex-1 p-6 md:p-8 max-w-7xl w-full mx-auto space-y-7">
+      <div className="flex-1 p-4 sm:p-6 md:p-8 max-w-7xl w-full mx-auto space-y-6 sm:space-y-7">
         {/* Modular Metric Cards Strip (Layered Stationery Notes with Pins & Clips) */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5 sm:gap-5">
           {/* Card 1: Active Projects (Pinned 3x5 index note) */}
           <div className="relative p-5 rounded-2xl bg-[#FFFFFF] border border-[#DDD3C4] paper-shadow paper-lift overflow-visible">
             <div className="absolute -top-3.5 right-6 z-10">
@@ -162,30 +162,30 @@ export default function ProjectsPage() {
               <Search className="w-4 h-4 absolute left-3.5 top-2.5 text-[#8A7966]" />
               <input
                 type="text"
-                placeholder="Search projects by name or description..."
+                placeholder="Search projects..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 bg-[#FFFFFF] border border-[#DDD3C4] rounded-xl text-xs text-[#1E2229] placeholder-[#8C98A8] focus:border-[#C86446] focus:ring-1 focus:ring-[#C86446] transition paper-shadow-sm font-sans"
+                className="w-full pl-10 pr-4 py-2 bg-[#FFFFFF] border border-[#DDD3C4] rounded-xl text-base sm:text-xs text-[#1E2229] placeholder-[#8C98A8] focus:border-[#C86446] focus:ring-1 focus:ring-[#C86446] transition paper-shadow-sm font-sans"
               />
             </div>
           </div>
 
-          <div className="flex items-center gap-2.5 shrink-0">
+          <div className="flex items-center gap-2 sm:gap-2.5 justify-between sm:justify-end shrink-0 flex-wrap">
             {/* Role Filter Tabs */}
             <div className="flex items-center p-1 bg-[#EFE8DC] border border-[#D8CABE] rounded-xl text-xs shadow-inner">
               <button
                 onClick={() => setRoleFilter("all")}
-                className={`px-3 py-1 rounded-lg font-editorial font-bold transition cursor-pointer ${
+                className={`px-2.5 sm:px-3 py-1 rounded-lg font-editorial font-bold transition cursor-pointer text-xs ${
                   roleFilter === "all"
                     ? "bg-[#FFFFFF] text-[#1E2229] paper-shadow-sm"
                     : "text-[#6C5D4B] hover:text-[#1E2229]"
                 }`}
               >
-                All Projects
+                All
               </button>
               <button
                 onClick={() => setRoleFilter("admin")}
-                className={`px-3 py-1 rounded-lg font-editorial font-bold transition cursor-pointer ${
+                className={`px-2.5 sm:px-3 py-1 rounded-lg font-editorial font-bold transition cursor-pointer text-xs ${
                   roleFilter === "admin"
                     ? "bg-[#FFFFFF] text-[#1E2229] paper-shadow-sm"
                     : "text-[#6C5D4B] hover:text-[#1E2229]"
@@ -195,7 +195,7 @@ export default function ProjectsPage() {
               </button>
               <button
                 onClick={() => setRoleFilter("member")}
-                className={`px-3 py-1 rounded-lg font-editorial font-bold transition cursor-pointer ${
+                className={`px-2.5 sm:px-3 py-1 rounded-lg font-editorial font-bold transition cursor-pointer text-xs ${
                   roleFilter === "member"
                     ? "bg-[#FFFFFF] text-[#1E2229] paper-shadow-sm"
                     : "text-[#6C5D4B] hover:text-[#1E2229]"
@@ -280,47 +280,49 @@ export default function ProjectsPage() {
             ))}
           </div>
         ) : (
-          /* Ruled Ledger Table */
+          /* Ruled Ledger Table with horizontal scroll wrapper */
           <div className="rounded-2xl border border-[#DDD3C4] bg-[#FFFFFF] paper-shadow overflow-hidden">
-            <table className="w-full text-left text-xs">
-              <thead className="bg-[#F8F4EC] text-[#5A4D3D] border-b-2 border-[#DDD0BC] font-editorial font-bold text-xs">
-                <tr>
-                  <th className="py-3 px-5">Project Name</th>
-                  <th className="py-3 px-5">Description</th>
-                  <th className="py-3 px-5">Your Role</th>
-                  <th className="py-3 px-5">Team Members</th>
-                  <th className="py-3 px-5 text-right font-mono text-[11px]">Created Date</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-[#EFE7DA] ledger-ruled">
-                {filteredProjects.map((item) => {
-                  const dateStr = new Date(item.createdAt).toLocaleDateString();
-                  return (
-                    <tr
-                      key={item._id}
-                      onClick={() => router.push(`/projects/${item._id}`)}
-                      className="hover:bg-[#FAF7F0] transition cursor-pointer group"
-                    >
-                      <td className="py-3.5 px-5 font-editorial font-bold text-sm text-[#1E2229] group-hover:text-[#A83820]">
-                        {item.name}
-                      </td>
-                      <td className="py-3.5 px-5 text-[#5E6B7C] max-w-xs truncate">
-                        {item.description || "—"}
-                      </td>
-                      <td className="py-3.5 px-5">
-                        <RoleBadge role={item.role} size="sm" />
-                      </td>
-                      <td className="py-3.5 px-5 text-[#6A788A] font-mono">
-                        {item.members} {item.members === 1 ? "member" : "members"}
-                      </td>
-                      <td className="py-3.5 px-5 text-right text-[#8A7966] font-mono text-[11px]">
-                        {dateStr}
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
+            <div className="overflow-x-auto w-full">
+              <table className="min-w-[620px] w-full text-left text-xs">
+                <thead className="bg-[#F8F4EC] text-[#5A4D3D] border-b-2 border-[#DDD0BC] font-editorial font-bold text-xs">
+                  <tr>
+                    <th className="py-3 px-5">Project Name</th>
+                    <th className="py-3 px-5">Description</th>
+                    <th className="py-3 px-5">Your Role</th>
+                    <th className="py-3 px-5">Team Members</th>
+                    <th className="py-3 px-5 text-right font-mono text-[11px]">Created Date</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-[#EFE7DA] ledger-ruled">
+                  {filteredProjects.map((item) => {
+                    const dateStr = new Date(item.createdAt).toLocaleDateString();
+                    return (
+                      <tr
+                        key={item._id}
+                        onClick={() => router.push(`/projects/${item._id}`)}
+                        className="hover:bg-[#FAF7F0] transition cursor-pointer group"
+                      >
+                        <td className="py-3.5 px-5 font-editorial font-bold text-sm text-[#1E2229] group-hover:text-[#A83820]">
+                          {item.name}
+                        </td>
+                        <td className="py-3.5 px-5 text-[#5E6B7C] max-w-xs truncate">
+                          {item.description || "—"}
+                        </td>
+                        <td className="py-3.5 px-5">
+                          <RoleBadge role={item.role} size="sm" />
+                        </td>
+                        <td className="py-3.5 px-5 text-[#6A788A] font-mono">
+                          {item.members} {item.members === 1 ? "member" : "members"}
+                        </td>
+                        <td className="py-3.5 px-5 text-right text-[#8A7966] font-mono text-[11px]">
+                          {dateStr}
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
           </div>
         )}
       </div>

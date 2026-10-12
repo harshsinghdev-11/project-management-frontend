@@ -70,16 +70,16 @@ export function ProjectSettingsTab({
   };
 
   return (
-    <div className="max-w-2xl space-y-6">
+    <div className="max-w-2xl space-y-4 sm:space-y-6">
       {/* General Settings */}
-      <div className="bg-[#FFFFFF] border border-[#DDD3C4] rounded-2xl p-6 paper-shadow">
+      <div className="bg-[#FFFFFF] border border-[#DDD3C4] rounded-2xl p-4 sm:p-6 paper-shadow">
         <div className="flex items-center gap-2.5 mb-1">
           <Settings className="w-4 h-4 text-[#8C5E3A]" />
           <h3 className="font-editorial text-base font-bold text-[#1E2229]">
             Project Settings
           </h3>
         </div>
-        <p className="text-xs text-[#6A788A] mb-5">
+        <p className="text-xs text-[#6A788A] mb-4 sm:mb-5">
           Update project name and general description
         </p>
 
@@ -89,7 +89,7 @@ export function ProjectSettingsTab({
           </div>
         )}
 
-        <form onSubmit={handleSave} className="space-y-4">
+        <form onSubmit={handleSave} className="space-y-3.5 sm:space-y-4">
           <div>
             <label className="block font-editorial text-xs font-bold text-[#4E4133] mb-1.5">
               Project Name
@@ -99,7 +99,7 @@ export function ProjectSettingsTab({
               disabled={!isAdmin}
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="w-full px-3.5 py-2.5 bg-[#FCFAF5] border border-[#DDD0BC] rounded-xl text-sm text-[#1E2229] disabled:opacity-60 focus:border-[#C86446] focus:outline-hidden transition shadow-2xs font-editorial font-bold"
+              className="w-full px-3.5 py-2 sm:py-2.5 bg-[#FCFAF5] border border-[#DDD0BC] rounded-xl text-base sm:text-sm text-[#1E2229] disabled:opacity-60 focus:border-[#C86446] focus:outline-hidden transition shadow-2xs font-editorial font-bold"
             />
           </div>
 
@@ -112,7 +112,7 @@ export function ProjectSettingsTab({
               disabled={!isAdmin}
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              className="w-full px-3.5 py-2.5 bg-[#FCFAF5] border border-[#DDD0BC] rounded-xl text-sm text-[#1E2229] disabled:opacity-60 focus:border-[#C86446] focus:outline-hidden transition resize-none shadow-2xs"
+              className="w-full px-3.5 py-2 sm:py-2.5 bg-[#FCFAF5] border border-[#DDD0BC] rounded-xl text-base sm:text-sm text-[#1E2229] disabled:opacity-60 focus:border-[#C86446] focus:outline-hidden transition resize-none shadow-2xs font-sans"
             />
           </div>
 
@@ -121,7 +121,7 @@ export function ProjectSettingsTab({
               <button
                 type="submit"
                 disabled={isSaving || !name.trim()}
-                className="inline-flex items-center gap-2 px-5 py-2 text-xs font-editorial font-bold text-white bg-[#C86446] hover:bg-[#B34F34] rounded-xl shadow-sm transition disabled:opacity-50 cursor-pointer border border-[#9A371F]"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-2 text-xs font-editorial font-bold text-white bg-[#C86446] hover:bg-[#B34F34] rounded-xl shadow-sm transition disabled:opacity-50 cursor-pointer border border-[#9A371F]"
               >
                 {isSaving ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Save className="w-3.5 h-3.5" />}
                 Save Changes
@@ -133,7 +133,7 @@ export function ProjectSettingsTab({
 
       {/* Danger Zone (Admin Only) */}
       {isAdmin && (
-        <div className="bg-[#FDF3F3] border border-[#F2C4C4] rounded-2xl p-6 paper-shadow-sm">
+        <div className="bg-[#FDF3F3] border border-[#F2C4C4] rounded-2xl p-4 sm:p-6 paper-shadow-sm">
           <div className="flex items-center gap-2 text-[#A63838] mb-1.5">
             <AlertTriangle className="w-4 h-4 shrink-0" />
             <h3 className="font-editorial text-sm font-bold">Danger Zone</h3>
@@ -154,8 +154,8 @@ export function ProjectSettingsTab({
 
       {/* Delete Confirmation Modal */}
       {showDeleteModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-xs animate-in fade-in duration-150">
-          <div className="relative w-full max-w-md bg-[#FAF7F0] border border-[#DDD3C4] rounded-2xl p-6 paper-shadow-lg">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/40 backdrop-blur-xs animate-in fade-in duration-150">
+          <div className="relative w-full max-w-md max-h-[90vh] overflow-y-auto bg-[#FAF7F0] border border-[#DDD3C4] rounded-2xl p-4 sm:p-6 paper-shadow-lg">
             <h3 className="font-editorial text-base font-bold text-[#A63838] mb-2">
               Confirm Project Deletion
             </h3>
@@ -172,7 +172,7 @@ export function ProjectSettingsTab({
               value={confirmText}
               onChange={(e) => setConfirmText(e.target.value)}
               placeholder={project.name}
-              className="w-full px-3.5 py-2 bg-[#FFFFFF] border border-[#DDD0BC] rounded-xl text-xs text-[#1E2229] mb-4 focus:border-[#A63838] focus:outline-hidden font-mono shadow-2xs"
+              className="w-full px-3.5 py-2 bg-[#FFFFFF] border border-[#DDD0BC] rounded-xl text-base sm:text-xs text-[#1E2229] mb-4 focus:border-[#A63838] focus:outline-hidden font-mono shadow-2xs"
             />
 
             <div className="flex items-center justify-end gap-2.5">
