@@ -64,7 +64,7 @@ export function Sidebar({ onOpenCreateProject }: SidebarProps) {
     return () => {
       mounted = false;
     };
-  }, [user, pathname]);
+  }, [user]);
 
   const handleLogout = async () => {
     await logout();

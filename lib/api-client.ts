@@ -88,10 +88,22 @@ async function refreshAccessToken(): Promise<boolean> {
   }
 }
 
+// In-flight request deduplication map to prevent stampeding duplicate GET calls
+const inFlightRequests = new Map<string, Promise<any>>();
+
 export async function apiRequest<T = any>(
   endpoint: string,
   options: RequestOptions = {}
 ): Promise<T> {
+  const method = (options.method || "GET").toUpperCase();
+  const isDedupeable = method === "GET" || (method === "POST" && endpoint === "/auth/current-user");
+  const dedupeKey = isDedupeable ? `${method}:${endpoint}` : null;
+
+  // If an identical request is already in-flight, return the existing pending promise
+  if (isDedupeable && dedupeKey && inFlightRequests.has(dedupeKey)) {
+    return inFlightRequests.get(dedupeKey) as Promise<T>;
+  }
+
   const { token, skipAuth, headers = {}, ...restOptions } = options;
   const currentToken = token || (!skipAuth ? getStoredToken() : null);
 
@@ -108,60 +120,75 @@ export async function apiRequest<T = any>(
 
   const url = endpoint.startsWith("http") ? endpoint : `${BASE_URL}${endpoint}`;
 
-  let response: Response;
-  try {
-    response = await fetch(url, {
-      ...restOptions,
-      headers: finalHeaders,
-      credentials: "include", // Required for HTTP-only cookies
-    });
-  } catch (err: any) {
-    throw new ApiError(
-      err?.message || "Network error. Please check your connection to the server.",
-      0
-    );
-  }
-
-  // Handle automatic 401 token refresh if not already calling an auth route
-  if (response.status === 401 && !endpoint.includes("/auth/login") && !endpoint.includes("/auth/refresh-token")) {
-    const refreshed = await refreshAccessToken();
-    if (refreshed) {
-      // Retry request once with updated token
-      const newToken = getStoredToken();
-      const retryHeaders: HeadersInit = {
-        ...finalHeaders,
-        ...(newToken ? { Authorization: `Bearer ${newToken}` } : {}),
-      };
-      if (restOptions.body instanceof FormData) {
-        delete (retryHeaders as any)["Content-Type"];
+  const requestPromise = (async () => {
+    try {
+      let response: Response;
+      try {
+        response = await fetch(url, {
+          ...restOptions,
+          headers: finalHeaders,
+          credentials: "include", // Required for HTTP-only cookies
+        });
+      } catch (err: any) {
+        throw new ApiError(
+          err?.message || "Network error. Please check your connection to the server.",
+          0
+        );
       }
-      const retryResponse = await fetch(url, {
-        ...restOptions,
-        headers: retryHeaders,
-        credentials: "include",
-      });
-      if (retryResponse.ok) {
-        const retryJson = await retryResponse.json();
-        return retryJson.data as T;
+
+      // Handle automatic 401 token refresh if not already calling an auth route
+      if (response.status === 401 && !endpoint.includes("/auth/login") && !endpoint.includes("/auth/refresh-token")) {
+        const refreshed = await refreshAccessToken();
+        if (refreshed) {
+          // Retry request once with updated token
+          const newToken = getStoredToken();
+          const retryHeaders: HeadersInit = {
+            ...finalHeaders,
+            ...(newToken ? { Authorization: `Bearer ${newToken}` } : {}),
+          };
+          if (restOptions.body instanceof FormData) {
+            delete (retryHeaders as any)["Content-Type"];
+          }
+          const retryResponse = await fetch(url, {
+            ...restOptions,
+            headers: retryHeaders,
+            credentials: "include",
+          });
+          if (retryResponse.ok) {
+            const retryJson = await retryResponse.json();
+            return retryJson.data as T;
+          }
+        }
+      }
+
+      let json: any = null;
+      try {
+        json = await response.json();
+      } catch {
+        // Response was not JSON
+      }
+
+      if (!response.ok) {
+        const message = json?.message || `Request failed with status ${response.status}`;
+        const errors = json?.errors || undefined;
+        throw new ApiError(message, response.status, errors, json);
+      }
+
+      // Returns data payload from ApiResponse envelope
+      return json?.data !== undefined ? (json.data as T) : (json as T);
+    } finally {
+      // Remove from map as soon as request settles
+      if (dedupeKey) {
+        inFlightRequests.delete(dedupeKey);
       }
     }
+  })();
+
+  if (isDedupeable && dedupeKey) {
+    inFlightRequests.set(dedupeKey, requestPromise);
   }
 
-  let json: any = null;
-  try {
-    json = await response.json();
-  } catch {
-    // Response was not JSON
-  }
-
-  if (!response.ok) {
-    const message = json?.message || `Request failed with status ${response.status}`;
-    const errors = json?.errors || undefined;
-    throw new ApiError(message, response.status, errors, json);
-  }
-
-  // Returns data payload from ApiResponse envelope
-  return json?.data !== undefined ? (json.data as T) : (json as T);
+  return requestPromise;
 }
 
 export const api = {

@@ -26,17 +26,30 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
+  const inFlightUserPromise = React.useRef<Promise<User | null> | null>(null);
+
   // Fetch current user details via POST /auth/current-user
   const refreshCurrentUser = useCallback(async (): Promise<User | null> => {
-    try {
-      // Per API Contract: POST /auth/current-user (not GET)
-      const data = await api.post<User>("/auth/current-user");
-      setUser(data);
-      return data;
-    } catch {
-      setUser(null);
-      return null;
+    if (inFlightUserPromise.current) {
+      return inFlightUserPromise.current;
     }
+
+    const promise = (async () => {
+      try {
+        // Per API Contract: POST /auth/current-user (not GET)
+        const data = await api.post<User>("/auth/current-user");
+        setUser(data);
+        return data;
+      } catch {
+        setUser(null);
+        return null;
+      } finally {
+        inFlightUserPromise.current = null;
+      }
+    })();
+
+    inFlightUserPromise.current = promise;
+    return promise;
   }, []);
 
   // Initialize session on mount
