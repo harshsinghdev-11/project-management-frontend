@@ -22,9 +22,6 @@ const geistMono = Geist_Mono({
   display: "swap",
 });
 
-const baseUrl = new URL(process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3001");
-
-
 const baseUrl = new URL(
   process.env.NEXT_PUBLIC_APP_URL || "https://project-camp-six.vercel.app"
 );
