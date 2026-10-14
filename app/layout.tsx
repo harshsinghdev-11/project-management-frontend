@@ -24,24 +24,55 @@ const geistMono = Geist_Mono({
 
 const baseUrl = new URL(process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3001");
 
+
+const baseUrl = new URL(
+  process.env.NEXT_PUBLIC_APP_URL || "https://project-camp-six.vercel.app"
+);
+
 export const metadata: Metadata = {
   metadataBase: baseUrl,
   title: {
     default: "Project Camp — Tactile Project Management",
     template: "%s | Project Camp",
   },
-  description: "Tactile Papercraft Project Management Workspace",
+  description:
+    "A collaborative project management application built with Node.js, Express.js, and MongoDB. Manage projects, tasks, team members, and workflows.",
+  openGraph: {
+    title: "Project Camp | Project Management",
+    description:
+      "Explore Project Camp, a collaborative project management application with task tracking, team roles, and secure backend APIs.",
+    url: "https://project-camp-six.vercel.app/",
+    siteName: "Project Camp",
+    images: [
+      {
+        url: "/images/project-camp.png",
+        width: 1200,
+        height: 630,
+        alt: "Project Camp — Project Management Application",
+      },
+    ],
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Project Camp | Project Management",
+    description:
+      "A collaborative project management application built with Node.js, Express.js, and MongoDB.",
+    images: ["/images/image.png"],
+  },
   keywords: [
     "project management",
     "kanban board",
     "sprint roadmap",
-    "tactile design",
     "team productivity",
     "task manager",
+    "Node.js",
+    "Express.js",
+    "MongoDB",
   ],
-  authors: [{ name: "Project Camp Team" }],
-  creator: "Project Camp",
+  creator: "Harsh",
 };
+
 
 export default function RootLayout({
   children,
