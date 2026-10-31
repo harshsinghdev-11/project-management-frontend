@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Fraunces, Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "@/context/auth-context";
+import { SocketProvider } from "@/context/socket-context";
 import { ToastProvider } from "@/components/ui/toast";
 
 const fraunces = Fraunces({
@@ -83,7 +84,9 @@ export default function RootLayout({
     >
       <body className="min-h-screen bg-[#FBF9F5] text-[#1E2229] flex flex-col font-sans selection:bg-[#E2D4BC] selection:text-[#1E2229]">
         <AuthProvider>
-          <ToastProvider>{children}</ToastProvider>
+          <SocketProvider>
+            <ToastProvider>{children}</ToastProvider>
+          </SocketProvider>
         </AuthProvider>
       </body>
     </html>

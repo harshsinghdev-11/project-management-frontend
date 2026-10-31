@@ -12,6 +12,7 @@ import {
   Loader2,
   AlertCircle,
   Calendar,
+  MessageSquare,
 } from "lucide-react";
 import { Header } from "@/components/layout/header";
 import { KanbanBoard } from "@/components/tasks/kanban-board";
@@ -22,6 +23,7 @@ import { ProjectSettingsTab } from "@/components/projects/project-settings-tab";
 import { CreateTaskModal } from "@/components/tasks/create-task-modal";
 import { TaskDetailModal } from "@/components/tasks/task-detail-modal";
 import { InviteMemberModal } from "@/components/members/invite-member-modal";
+import { ChatDrawer } from "@/components/chat/chat-drawer";
 import { RoleBadge } from "@/components/ui/role-badge";
 import { api, ApiError } from "@/lib/api-client";
 import { Project, ProjectMemberDetail, Task, TaskStatus, UserRole } from "@/types/api";
@@ -53,6 +55,7 @@ function ProjectWorkspaceContent({
   const [createTaskOpen, setCreateTaskOpen] = useState(false);
   const [createTaskInitialStatus, setCreateTaskInitialStatus] = useState<TaskStatus>("todo");
   const [inviteMemberOpen, setInviteMemberOpen] = useState(false);
+  const [chatOpen, setChatOpen] = useState(false);
   const [selectedTaskId, setSelectedTaskId] = useState<string | null>(null);
 
   // Fetch all project data
@@ -158,7 +161,20 @@ function ProjectWorkspaceContent({
           { label: project.name },
         ]}
         actions={
-          <div className="flex items-center gap-2.5">
+          <div className="flex items-center gap-2 sm:gap-2.5">
+            <button
+              onClick={() => setChatOpen(!chatOpen)}
+              className={`inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-editorial font-bold border transition cursor-pointer select-none ${
+                chatOpen
+                  ? "bg-[#C86446] text-white border-[#B34F34] shadow-xs"
+                  : "bg-white hover:bg-[#F8F4EC] text-[#4A3D2D] border-[#DDD3C4] paper-shadow-sm"
+              }`}
+              title="Toggle Project Group Chat"
+            >
+              <MessageSquare className={`w-3.5 h-3.5 ${chatOpen ? "text-white" : "text-[#C86446]"}`} />
+              <span className="font-editorial text-[13px]">Group Chat</span>
+            </button>
+
             <button
               onClick={() => {
                 setCreateTaskInitialStatus("todo");
@@ -225,6 +241,20 @@ function ProjectWorkspaceContent({
                 <span>Invite Team</span>
               </button>
             )}
+
+            {/* Group Chat Button in Banner */}
+            <button
+              onClick={() => setChatOpen(!chatOpen)}
+              className={`inline-flex items-center gap-1.5 px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-xl text-xs font-editorial font-bold border transition cursor-pointer paper-shadow-sm select-none ${
+                chatOpen
+                  ? "bg-[#C86446] text-white border-[#B34F34]"
+                  : "bg-[#FFFFFF] hover:bg-[#F8F4EC] text-[#4A3D2D] border-[#DDD3C4]"
+              }`}
+              title="Open Project Group Chat"
+            >
+              <MessageSquare className={`w-3.5 h-3.5 ${chatOpen ? "text-white" : "text-[#C86446]"}`} />
+              <span>Group Chat</span>
+            </button>
           </div>
         </div>
 
@@ -371,6 +401,14 @@ function ProjectWorkspaceContent({
         isOpen={inviteMemberOpen}
         onClose={() => setInviteMemberOpen(false)}
         onMemberAdded={loadData}
+      />
+
+      {/* Real-time Project Group Chat Drawer */}
+      <ChatDrawer
+        projectId={projectId}
+        projectName={project.name}
+        isOpen={chatOpen}
+        onClose={() => setChatOpen(false)}
       />
     </div>
   );

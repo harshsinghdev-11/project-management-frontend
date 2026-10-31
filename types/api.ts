@@ -130,3 +130,45 @@ export interface ApiErrorResponse {
   success: false;
   errors?: Array<Record<string, string>> | any[];
 }
+
+export interface Conversation {
+  _id: string;
+  project: string;
+  name: string;
+  isDefault: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface ChatAttachment {
+  url: string;
+  mimetype: string;
+  size: number;
+}
+
+export interface ChatMessage {
+  _id: string;
+  content: string;
+  conversation: string;
+  sender: {
+    _id: string;
+    username: string;
+    fullName?: string;
+    avatar?: UserAvatar;
+    email?: string;
+  };
+  attachments?: ChatAttachment[];
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface ChatMessagesResponse {
+  messages: ChatMessage[];
+  pagination: {
+    page: number;
+    limit: number;
+    totalMessages: number;
+    totalPages: number;
+  };
+}
+
