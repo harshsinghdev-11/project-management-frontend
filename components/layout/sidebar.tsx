@@ -13,6 +13,7 @@ import {
   Feather,
   Menu,
   X,
+  Sparkles,
 } from "lucide-react";
 import { useAuth } from "@/context/auth-context";
 import { UserAvatarView } from "@/components/ui/avatar";
@@ -144,6 +145,18 @@ export function Sidebar({ onOpenCreateProject }: SidebarProps) {
               >
                 <FolderKanban className="w-4 h-4 shrink-0 text-[#8C5E3A]" />
                 <span>All Projects</span>
+              </Link>
+              <Link
+                href="/agent"
+                onClick={() => setMobileMenuOpen(false)}
+                className={`flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-xs font-semibold transition ${
+                  pathname === "/agent"
+                    ? "bg-[#FFFFFF] text-[#1E2229] border border-[#D5C6AF] paper-shadow font-editorial text-[13px]"
+                    : "text-[#5C4F3F] hover:text-[#1E2229] hover:bg-[#EAE0D0]"
+                }`}
+              >
+                <Sparkles className="w-4 h-4 shrink-0 text-[#C86446]" />
+                <span>Camp Agent</span>
               </Link>
             </div>
 
@@ -308,6 +321,28 @@ export function Sidebar({ onOpenCreateProject }: SidebarProps) {
               )}
               <FolderKanban className="w-4 h-4 shrink-0 text-[#8C5E3A]" />
               {!isCollapsed && <span>Projects</span>}
+            </Link>
+
+            <Link
+              href="/agent"
+              className={`relative flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-xs font-semibold transition ${
+                pathname === "/agent"
+                  ? "bg-[#FCFAF5] text-[#1E2229] border border-[#D5C6AF] paper-shadow font-editorial text-[13px]"
+                  : "text-[#5C4F3F] hover:text-[#1E2229] hover:bg-[#E2D6C3]"
+              }`}
+              title="Camp Agent"
+            >
+              {pathname === "/agent" && !isCollapsed && (
+                <div className="absolute -top-3 right-3 z-10">
+                  <Paperclip color="copper" size="sm" rotation={10} />
+                </div>
+              )}
+              <Sparkles
+                className={`w-4 h-4 shrink-0 transition-colors ${
+                  pathname === "/agent" ? "text-[#C86446]" : "text-[#7C6C57]"
+                }`}
+              />
+              {!isCollapsed && <span>Camp Agent</span>}
             </Link>
           </div>
 

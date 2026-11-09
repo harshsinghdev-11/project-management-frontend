@@ -172,3 +172,13 @@ export interface ChatMessagesResponse {
   };
 }
 
+export interface AgentRunRequest {
+  query: string;
+}
+
+export interface AgentRunResponseData {
+  answer: string;
+  messages?: Array<Record<string, any>>;
+}
+
+
