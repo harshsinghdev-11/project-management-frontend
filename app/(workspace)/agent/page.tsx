@@ -16,7 +16,7 @@ import {
 import { Header } from "@/components/layout/header";
 import { WaxSeal } from "@/components/stationery/wax-seal";
 import { Pushpin } from "@/components/stationery/pushpin";
-import { runAgent } from "@/lib/agent-api";
+import { clearAgentMessages, getAgentMessages, runAgent } from "@/lib/agent-api";
 import { useAuth } from "@/context/auth-context";
 
 interface Message {
@@ -33,17 +33,28 @@ const STARTER_PROMPTS = [
   "List tasks in my active project",
 ];
 
+const WELCOME_TEXT =
+  "Hello! I am your Project Camp Agent. You can ask me to list your projects, create new projects, check tasks, or manage your workspace using natural language.";
+
+function welcomeMessage(): Message {
+  return {
+    id: "welcome",
+    sender: "agent",
+    content: WELCOME_TEXT,
+    timestamp: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+  };
+}
+
+function formatTurnTime(createdAt: string): string {
+  const date = new Date(createdAt);
+  if (Number.isNaN(date.getTime())) return "";
+  return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+}
+
 export default function AgentPage() {
   const { user } = useAuth();
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      id: "welcome",
-      sender: "agent",
-      content:
-        "Hello! I am your Project Camp Agent. You can ask me to list your projects, create new projects, check tasks, or manage your workspace using natural language.",
-      timestamp: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
-    },
-  ]);
+  const [messages, setMessages] = useState<Message[]>([welcomeMessage()]);
+  const [historyLoading, setHistoryLoading] = useState(true);
   const [inputQuery, setInputQuery] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -60,9 +71,45 @@ export default function AgentPage() {
     scrollToBottom();
   }, [messages, loading]);
 
+  useEffect(() => {
+    let cancelled = false;
+
+    async function loadHistory() {
+      setHistoryLoading(true);
+      try {
+        const data = await getAgentMessages();
+        if (cancelled) return;
+        const stored = Array.isArray(data?.messages) ? data.messages : [];
+        if (stored.length === 0) {
+          setMessages([welcomeMessage()]);
+          return;
+        }
+        setMessages(
+          stored.map((turn) => ({
+            id: turn._id,
+            sender: turn.role === "user" ? "user" : "agent",
+            content: turn.content,
+            timestamp: formatTurnTime(turn.createdAt),
+          })),
+        );
+      } catch (err: any) {
+        if (cancelled) return;
+        setError(err?.message || "Could not load previous conversation.");
+        setMessages([welcomeMessage()]);
+      } finally {
+        if (!cancelled) setHistoryLoading(false);
+      }
+    }
+
+    loadHistory();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
   const handleSend = async (queryToSend?: string) => {
     const query = (queryToSend ?? inputQuery).trim();
-    if (!query || loading) return;
+    if (!query || loading || historyLoading) return;
 
     setError(null);
     setInputQuery("");
@@ -112,17 +159,23 @@ export default function AgentPage() {
     setTimeout(() => setCopiedId(null), 2000);
   };
 
-  const handleClearHistory = () => {
-    setMessages([
-      {
-        id: "welcome-reset",
-        sender: "agent",
-        content:
-          "Conversation cleared. How can I help you manage your projects or tasks today?",
-        timestamp: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
-      },
-    ]);
+  const handleClearHistory = async () => {
+    if (loading) return;
     setError(null);
+    try {
+      await clearAgentMessages();
+      setMessages([
+        {
+          id: "welcome-reset",
+          sender: "agent",
+          content:
+            "Conversation cleared. How can I help you manage your projects or tasks today?",
+          timestamp: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+        },
+      ]);
+    } catch (err: any) {
+      setError(err?.message || "Could not clear the saved conversation.");
+    }
   };
 
   return (
@@ -168,6 +221,12 @@ export default function AgentPage() {
 
         {/* Messages Stream Container */}
         <div className="flex-1 overflow-y-auto px-1 sm:px-3 py-2 space-y-4 rounded-xl">
+          {historyLoading && (
+            <div className="flex items-center gap-2 px-2 py-3 text-xs font-mono text-[#7A6B58]">
+              <Loader2 className="w-3.5 h-3.5 animate-spin text-[#C86446]" />
+              <span>Loading previous conversation...</span>
+            </div>
+          )}
           {messages.map((msg) => (
             <div
               key={msg.id}
@@ -277,7 +336,7 @@ export default function AgentPage() {
                 <button
                   key={idx}
                   onClick={() => handleSend(prompt)}
-                  disabled={loading}
+                  disabled={loading || historyLoading}
                   className="px-2.5 py-1.5 rounded-lg text-xs bg-[#F4EFE6] hover:bg-[#EAE0D0] text-[#554737] border border-[#D9CDB8] transition font-editorial cursor-pointer disabled:opacity-50 text-left shadow-xs"
                 >
                   &ldquo;{prompt}&rdquo;
@@ -296,7 +355,7 @@ export default function AgentPage() {
               value={inputQuery}
               onChange={(e) => setInputQuery(e.target.value)}
               onKeyDown={handleKeyDown}
-              disabled={loading}
+              disabled={loading || historyLoading}
               placeholder="Ask Camp Agent to create or list projects, tasks, or query status... (Press Enter to send)"
               className="w-full px-4 pt-3 pb-10 text-xs sm:text-sm bg-transparent border-0 focus:ring-0 resize-none outline-none placeholder:text-[#A89885] text-[#1E2229]"
             />
@@ -307,7 +366,7 @@ export default function AgentPage() {
               </span>
               <button
                 onClick={() => handleSend()}
-                disabled={!inputQuery.trim() || loading}
+                disabled={!inputQuery.trim() || loading || historyLoading}
                 className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-editorial font-bold text-white bg-[#C86446] hover:bg-[#B34F34] disabled:opacity-40 disabled:cursor-not-allowed shadow-xs transition cursor-pointer border border-[#9A371F]"
               >
                 {loading ? (

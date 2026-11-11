@@ -181,4 +181,15 @@ export interface AgentRunResponseData {
   messages?: Array<Record<string, any>>;
 }
 
+export interface AgentChatMessage {
+  _id: string;
+  role: "user" | "assistant";
+  content: string;
+  createdAt: string;
+}
+
+export interface AgentMessagesResponse {
+  messages: AgentChatMessage[];
+}
+
 
