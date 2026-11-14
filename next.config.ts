@@ -1,7 +1,6 @@
 import type { NextConfig } from "next";
 
-const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL || "http://localhost:3000";
-
+const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL;
 const nextConfig: NextConfig = {
   /* config options here */
   devIndicators: false,

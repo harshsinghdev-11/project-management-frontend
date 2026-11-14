@@ -18,8 +18,7 @@ const SocketContext = createContext<SocketContextType>({
 
 const SOCKET_SERVER_URL =
   process.env.NEXT_PUBLIC_SOCKET_URL ||
-  process.env.NEXT_PUBLIC_SERVER_URL ||
-  "http://localhost:3000";
+  process.env.NEXT_PUBLIC_SERVER_URL;
 
 export function SocketProvider({ children }: { children: React.ReactNode }) {
   const { user } = useAuth();
