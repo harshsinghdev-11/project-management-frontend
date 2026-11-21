@@ -197,7 +197,7 @@ export function TaskDetailModal({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/45 backdrop-blur-xs animate-in fade-in duration-150">
-      <div className="relative w-full max-w-2xl max-h-[92vh] bg-[#FFFFFF] border border-[#DDD3C4] rounded-2xl flex flex-col paper-shadow-lg overflow-hidden">
+      <div className="relative w-full max-w-4xl max-h-[92vh] bg-[#FFFFFF] border border-[#DDD3C4] rounded-2xl flex flex-col paper-shadow-lg overflow-hidden">
         {/* Manila file folder tab shape */}
         <div
           className="absolute top-0 left-6 h-3 w-28 rounded-b-md bg-[#ECE2D0] border-x border-b border-[#D8CABE] hidden sm:block"
@@ -237,17 +237,22 @@ export function TaskDetailModal({
         ) : (
           <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-4 sm:space-y-6 ledger-ruled">
             {/* Title & Status */}
-            <div className="space-y-3 bg-[#FFFFFF]/90 p-3.5 sm:p-4 rounded-xl border border-[#EAE0D2] paper-shadow-sm">
-              <input
-                type="text"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-                onBlur={handleUpdateTask}
-                className="w-full font-editorial text-lg sm:text-xl font-bold text-[#1E2229] bg-transparent border-b border-dashed border-[#DDD0BC] hover:border-[#C86446] focus:border-[#C86446] focus:bg-[#FAF7F2] rounded px-1.5 py-1 transition font-sans"
-                placeholder="Task title..."
-              />
+            <div className="space-y-3 bg-[#FFFFFF]/90 p-4 sm:p-5 rounded-xl border border-[#EAE0D2] paper-shadow-sm">
+              <div>
+                <label className="block text-xs font-editorial font-bold text-[#4E4133] mb-1.5">
+                  Task Title <span className="text-[#C86446]">*</span>
+                </label>
+                <input
+                  type="text"
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                  onBlur={handleUpdateTask}
+                  className="w-full font-editorial text-lg sm:text-2xl font-bold text-[#1E2229] bg-transparent border-b border-dashed border-[#DDD0BC] hover:border-[#C86446] focus:border-[#C86446] focus:bg-[#FAF7F2] rounded px-2 py-1.5 transition font-sans"
+                  placeholder="Task title..."
+                />
+              </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
                 <div>
                   <label className="block text-[11px] font-editorial font-bold text-[#4E4133] mb-1">
                     Phase Column Stamp
@@ -255,7 +260,7 @@ export function TaskDetailModal({
                   <select
                     value={status}
                     onChange={(e) => handleStatusChange(e.target.value as TaskStatus)}
-                    className="w-full px-3 py-1.5 bg-[#FAF7F2] border border-[#DDD3C4] rounded-xl text-base sm:text-xs font-mono font-bold text-[#1E2229] focus:border-[#C86446] transition cursor-pointer"
+                    className="w-full px-3 py-2 bg-[#FAF7F2] border border-[#DDD3C4] rounded-xl text-base sm:text-xs font-mono font-bold text-[#1E2229] focus:border-[#C86446] transition cursor-pointer"
                   >
                     <option value="todo">TO DO</option>
                     <option value="in_progress">IN PROGRESS</option>
@@ -273,7 +278,7 @@ export function TaskDetailModal({
                       setAssignedToId(e.target.value);
                       setTimeout(handleUpdateTask, 100);
                     }}
-                    className="w-full px-3 py-1.5 bg-[#FAF7F2] border border-[#DDD3C4] rounded-xl text-base sm:text-xs font-medium text-[#1E2229] focus:border-[#C86446] transition cursor-pointer"
+                    className="w-full px-3 py-2 bg-[#FAF7F2] border border-[#DDD3C4] rounded-xl text-base sm:text-xs font-medium text-[#1E2229] focus:border-[#C86446] transition cursor-pointer"
                   >
                     <option value="">Unassigned</option>
                     {members.map((m) => {
@@ -293,17 +298,22 @@ export function TaskDetailModal({
             </div>
 
             {/* Description Memo */}
-            <div className="bg-[#FFFFFF]/90 p-4 rounded-xl border border-[#EAE0D2] paper-shadow-sm">
-              <label className="block text-[11px] font-editorial font-bold text-[#4E4133] mb-1.5">
-                Description
-              </label>
+            <div className="bg-[#FFFFFF]/90 p-4 sm:p-5 rounded-xl border border-[#EAE0D2] paper-shadow-sm space-y-2">
+              <div className="flex items-center justify-between">
+                <label className="block text-xs font-editorial font-bold text-[#4E4133]">
+                  Description & Notes
+                </label>
+                <span className="text-[11px] text-[#7A6C58] font-mono">
+                  Full viewing area & multiline notes
+                </span>
+              </div>
               <textarea
-                rows={3}
+                rows={8}
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 onBlur={handleUpdateTask}
-                placeholder="Task description, acceptance criteria, or reference notes..."
-                className="w-full px-3.5 py-2.5 bg-[#FAF7F2] border border-[#DDD3C4] rounded-xl text-base sm:text-xs text-[#1E2229] placeholder-[#8C98A8] focus:border-[#C86446] focus:bg-[#FFFFFF] transition resize-none font-sans leading-relaxed"
+                placeholder="Write detailed task description, acceptance criteria, or reference notes here..."
+                className="w-full min-h-[180px] sm:min-h-[220px] px-4 py-3 bg-[#FAF7F2] border border-[#DDD3C4] rounded-xl text-sm text-[#1E2229] placeholder-[#8C98A8] focus:border-[#C86446] focus:bg-[#FFFFFF] transition resize-y font-sans leading-relaxed"
               />
             </div>
 

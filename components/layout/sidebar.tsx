@@ -54,7 +54,8 @@ export function Sidebar({ onOpenCreateProject }: SidebarProps) {
         if (mounted && Array.isArray(rawData)) {
           const parsed = rawData
             .map(extractProject)
-            .filter((p): p is NormalizedProject => p !== null);
+            .filter((p): p is NormalizedProject => p !== null)
+            .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
           setRecentProjects(parsed.slice(0, 6));
         }
       } catch {

@@ -11,13 +11,11 @@ import {
   UserPlus,
   Loader2,
   AlertCircle,
-  Calendar,
   MessageSquare,
 } from "lucide-react";
 import { Header } from "@/components/layout/header";
 import { KanbanBoard } from "@/components/tasks/kanban-board";
 import { TaskListView } from "@/components/tasks/task-list-view";
-import { TimelineMatrix } from "@/components/tasks/timeline-matrix";
 import { ProjectMembersTab } from "@/components/members/project-members-tab";
 import { ProjectSettingsTab } from "@/components/projects/project-settings-tab";
 import { CreateTaskModal } from "@/components/tasks/create-task-modal";
@@ -44,7 +42,6 @@ function ProjectWorkspaceContent({
   const toast = useToast();
 
   const [activeTab, setActiveTab] = useState<"board" | "list" | "members" | "settings">("board");
-  const [showRoadmap, setShowRoadmap] = useState(true);
   const [project, setProject] = useState<Project | null>(null);
   const [members, setMembers] = useState<ProjectMemberDetail[]>([]);
   const [tasks, setTasks] = useState<Task[]>([]);
@@ -210,28 +207,6 @@ function ProjectWorkspaceContent({
           </div>
 
           <div className="flex items-center gap-2 sm:gap-2.5 shrink-0 flex-wrap">
-            {/* Tactile "Roadmap" Switch Button */}
-            <button
-              onClick={() => setShowRoadmap(!showRoadmap)}
-              className={`inline-flex items-center gap-1.5 sm:gap-2 px-3 py-1.5 rounded-xl text-xs font-editorial font-bold border transition cursor-pointer select-none shadow-xs ${
-                showRoadmap
-                  ? "bg-[#FFFFFF] border-[#C86446]/40 text-[#1E2229]"
-                  : "bg-[#EFE8DC] border-[#DDD0BC] text-[#6E5E4C] hover:bg-[#F5EFE4]"
-              }`}
-              title="Toggle sprint roadmap overview banner"
-            >
-              <Calendar className={`w-3.5 h-3.5 ${showRoadmap ? "text-[#C86446]" : "text-[#8C5E3A]"}`} />
-              <span>Roadmap</span>
-              {/* Physical sliding toggle switch */}
-              <div
-                className={`w-7 h-4 rounded-full p-0.5 transition-colors duration-200 ease-in-out flex items-center ${
-                  showRoadmap ? "bg-[#C86446] justify-end" : "bg-[#CFC2AF] justify-start"
-                }`}
-              >
-                <div className="w-3 h-3 rounded-full bg-white shadow-xs" />
-              </div>
-            </button>
-
             {canManageProject && (
               <button
                 onClick={() => setInviteMemberOpen(true)}
@@ -257,18 +232,6 @@ function ProjectWorkspaceContent({
             </button>
           </div>
         </div>
-
-        {/* Collapsible Overview Banner Above Workspace Tabs */}
-        {showRoadmap && (
-          <div className="mb-4 animate-in fade-in duration-200">
-            <TimelineMatrix
-              tasks={tasks}
-              onSelectTask={(task) => setSelectedTaskId(task._id)}
-              isOpen={showRoadmap}
-              onToggle={() => setShowRoadmap(!showRoadmap)}
-            />
-          </div>
-        )}
 
         {/* Tab Buttons with horizontal touch scrolling on mobile */}
         <div className="flex items-center gap-1.5 text-xs select-none overflow-x-auto no-scrollbar -mx-4 px-4 sm:mx-0 sm:px-0">
@@ -377,7 +340,7 @@ function ProjectWorkspaceContent({
         isOpen={createTaskOpen}
         onClose={() => setCreateTaskOpen(false)}
         onTaskCreated={(newTask) => {
-          setTasks((prev) => [newTask, ...prev]);
+          setTasks((prev) => [...prev, newTask]);
         }}
       />
 

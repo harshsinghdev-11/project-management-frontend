@@ -41,7 +41,8 @@ export default function ProjectsPage() {
       if (Array.isArray(rawData)) {
         const parsed = rawData
           .map(extractProject)
-          .filter((p): p is NormalizedProject => p !== null);
+          .filter((p): p is NormalizedProject => p !== null)
+          .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
         setProjects(parsed);
       }
     } catch {
@@ -332,7 +333,12 @@ export default function ProjectsPage() {
         onClose={() => setShowCreateModal(false)}
         onCreated={(project) => {
           setShowCreateModal(false);
-          router.push(`/projects/${project._id}`);
+          const normalized = extractProject(project);
+          if (normalized) {
+            setProjects((prev) => [normalized, ...prev]);
+          } else {
+            fetchProjects();
+          }
         }}
       />
     </div>
