@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Settings, Save, Trash2, AlertTriangle, Loader2 } from "lucide-react";
-import { Project, UserRole } from "@/types/api";
+import { Project, ProjectStatus, UserRole } from "@/types/api";
 import { api, ApiError } from "@/lib/api-client";
 import { useToast } from "@/components/ui/toast";
 
@@ -23,6 +23,7 @@ export function ProjectSettingsTab({
 
   const [name, setName] = useState(project.name);
   const [description, setDescription] = useState(project.description || "");
+  const [status, setStatus] = useState<ProjectStatus>(project.status || "todo");
   const [isSaving, setIsSaving] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const [confirmText, setConfirmText] = useState("");
@@ -42,6 +43,7 @@ export function ProjectSettingsTab({
       const updated = await api.put<Project>(`/projects/${project._id}`, {
         name: name.trim(),
         description: description.trim() || undefined,
+        status,
       });
 
       toast.success("Project updated", "General details saved successfully.");
@@ -114,6 +116,43 @@ export function ProjectSettingsTab({
               onChange={(e) => setDescription(e.target.value)}
               className="w-full px-3.5 py-2 sm:py-2.5 bg-[#FCFAF5] border border-[#DDD0BC] rounded-xl text-base sm:text-sm text-[#1E2229] disabled:opacity-60 focus:border-[#C86446] focus:outline-hidden transition resize-none shadow-2xs font-sans"
             />
+          </div>
+
+          <div>
+            <label className="block font-editorial text-xs font-bold text-[#4E4133] mb-1.5">
+              Project Status {!isAdmin && <span className="text-[#8A7966] font-normal">(Admin only)</span>}
+            </label>
+            <div className="flex items-center gap-2">
+              {(["todo", "in_progress", "completed"] as ProjectStatus[]).map((st) => {
+                const labels: Record<ProjectStatus, string> = {
+                  todo: "To Do",
+                  in_progress: "In Progress",
+                  completed: "Completed",
+                };
+                const isSelected = status === st;
+                return (
+                  <button
+                    key={st}
+                    type="button"
+                    disabled={!isAdmin}
+                    onClick={() => setStatus(st)}
+                    className={`flex-1 py-2 px-3 rounded-xl border text-xs font-mono font-bold transition select-none ${
+                      !isAdmin ? "opacity-60 cursor-not-allowed" : "cursor-pointer"
+                    } ${
+                      isSelected
+                        ? st === "completed"
+                          ? "bg-[#EDF5EB] border-[#2D6A4F] text-[#2D6A4F] shadow-xs"
+                          : st === "in_progress"
+                          ? "bg-[#FDF1ED] border-[#C86446] text-[#C86446] shadow-xs"
+                          : "bg-[#FAF5ED] border-[#705F4D] text-[#705F4D] shadow-xs"
+                        : "bg-[#FCFAF5] border-[#DDD0BC] text-[#6A788A] hover:bg-[#F4EFE6]"
+                    }`}
+                  >
+                    {labels[st]}
+                  </button>
+                );
+              })}
+            </div>
           </div>
 
           {isAdmin && (

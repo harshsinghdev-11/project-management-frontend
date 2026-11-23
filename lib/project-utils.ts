@@ -1,9 +1,10 @@
-import { UserRole } from "@/types/api";
+import { ProjectStatus, UserRole } from "@/types/api";
 
 export interface NormalizedProject {
   _id: string;
   name: string;
   description?: string;
+  status: ProjectStatus;
   members: number;
   role: UserRole;
   createdAt: string;
@@ -24,6 +25,7 @@ export function extractProject(raw: any): NormalizedProject | null {
       _id: String(raw.project._id || raw.project.id),
       name: String(raw.project.name || "Untitled Project"),
       description: raw.project.description || "",
+      status: (raw.project.status as ProjectStatus) || "todo",
       members:
         typeof raw.project.members === "number"
           ? raw.project.members
@@ -41,6 +43,7 @@ export function extractProject(raw: any): NormalizedProject | null {
       _id: String(raw._id || raw.id),
       name: String(raw.name || "Untitled Project"),
       description: raw.description || "",
+      status: (raw.status as ProjectStatus) || "todo",
       members:
         typeof raw.members === "number"
           ? raw.members

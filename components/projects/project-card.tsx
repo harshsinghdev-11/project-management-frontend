@@ -3,13 +3,16 @@ import Link from "next/link";
 import { Users, Calendar, ArrowUpRight, Folder, FileText } from "lucide-react";
 import { extractProject, NormalizedProject } from "@/lib/project-utils";
 import { RoleBadge } from "@/components/ui/role-badge";
+import { ProjectStatusBadge } from "@/components/projects/project-status-badge";
 import { Paperclip } from "@/components/stationery/paperclip";
+import { ProjectStatus } from "@/types/api";
 
 interface ProjectCardProps {
   item: any;
+  onStatusChanged?: (newStatus: ProjectStatus) => void;
 }
 
-export function ProjectCard({ item }: ProjectCardProps) {
+export function ProjectCard({ item, onStatusChanged }: ProjectCardProps) {
   const project: NormalizedProject | null = extractProject(item);
 
   if (!project) return null;
@@ -40,11 +43,18 @@ export function ProjectCard({ item }: ProjectCardProps) {
       </div>
 
       <div>
-        <div className="flex items-start justify-between gap-3 mb-3">
-          <div className="p-2 rounded-xl bg-[#F4EFE6] border border-[#E0D5C3] text-[#7A4E2B] group-hover:text-[#A83820] transition">
+        <div className="flex items-start justify-between gap-2 mb-3">
+          <div className="p-2 rounded-xl bg-[#F4EFE6] border border-[#E0D5C3] text-[#7A4E2B] group-hover:text-[#A83820] transition shrink-0">
             <Folder className="w-4 h-4" />
           </div>
-          <div className="flex items-center gap-2 pr-6">
+          <div className="flex items-center gap-1.5 flex-wrap justify-end pr-6">
+            <ProjectStatusBadge
+              status={project.status}
+              projectId={project._id}
+              currentUserRole={project.role}
+              onStatusChanged={onStatusChanged}
+              size="sm"
+            />
             <RoleBadge role={project.role} size="sm" />
           </div>
         </div>

@@ -1,5 +1,7 @@
 export type UserRole = "admin" | "project_admin" | "member";
 
+export type ProjectStatus = "todo" | "in_progress" | "completed";
+
 export type TaskStatus = "todo" | "in_progress" | "done";
 
 export interface UserAvatar {
@@ -28,6 +30,7 @@ export interface Project {
   _id: string;
   name: string;
   description?: string;
+  status: ProjectStatus;
   createdBy: string;
   createdAt: string;
   updatedAt: string;
@@ -38,6 +41,7 @@ export interface UserProjectItem {
     _id: string;
     name: string;
     description?: string;
+    status: ProjectStatus;
     members: number; // Computed member count
     createdBy: string;
     createdAt: string;

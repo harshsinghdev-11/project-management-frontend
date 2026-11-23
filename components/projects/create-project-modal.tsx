@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { X, FolderPlus, Loader2 } from "lucide-react";
 import { api, ApiError } from "@/lib/api-client";
-import { Project } from "@/types/api";
+import { Project, ProjectStatus } from "@/types/api";
 import { useToast } from "@/components/ui/toast";
 import { Paperclip } from "@/components/stationery/paperclip";
 import { Pushpin } from "@/components/stationery/pushpin";
@@ -18,6 +18,7 @@ export function CreateProjectModal({ isOpen, onClose, onCreated }: CreateProject
   const toast = useToast();
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
+  const [status, setStatus] = useState<ProjectStatus>("todo");
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
@@ -34,11 +35,13 @@ export function CreateProjectModal({ isOpen, onClose, onCreated }: CreateProject
       const newProject = await api.post<Project>("/projects", {
         name: name.trim(),
         description: description.trim() || undefined,
+        status,
       });
 
       toast.success("Project created", `"${newProject.name}" has been created.`);
       setName("");
       setDescription("");
+      setStatus("todo");
       onCreated(newProject);
     } catch (err: any) {
       if (err instanceof ApiError) {
@@ -115,6 +118,36 @@ export function CreateProjectModal({ isOpen, onClose, onCreated }: CreateProject
               placeholder="Key objectives, deliverables, or project notes..."
               className="w-full px-3.5 py-2 sm:py-2.5 bg-[#FAF7F2] border border-[#DDD3C4] rounded-xl text-base sm:text-sm text-[#1E2229] placeholder-[#8C98A8] focus:border-[#C86446] focus:bg-[#FFFFFF] focus:ring-1 focus:ring-[#C86446] transition resize-none font-sans"
             />
+          </div>
+
+          <div>
+            <label className="block text-xs font-bold text-[#3E3428] font-editorial mb-1.5">
+              Initial Status
+            </label>
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={() => setStatus("todo")}
+                className={`flex-1 py-1.5 px-3 rounded-xl border text-xs font-mono font-bold transition cursor-pointer select-none ${
+                  status === "todo"
+                    ? "bg-[#FAF5ED] border-[#C86446] text-[#A83820] shadow-xs"
+                    : "bg-[#FAF7F2] border-[#DDD3C4] text-[#6A788A] hover:bg-[#F4EFE6]"
+                }`}
+              >
+                To Do
+              </button>
+              <button
+                type="button"
+                onClick={() => setStatus("in_progress")}
+                className={`flex-1 py-1.5 px-3 rounded-xl border text-xs font-mono font-bold transition cursor-pointer select-none ${
+                  status === "in_progress"
+                    ? "bg-[#FDF1ED] border-[#C86446] text-[#C86446] shadow-xs"
+                    : "bg-[#FAF7F2] border-[#DDD3C4] text-[#6A788A] hover:bg-[#F4EFE6]"
+                }`}
+              >
+                In Progress
+              </button>
+            </div>
           </div>
 
           <div className="flex items-center justify-end gap-3 pt-3 border-t border-[#EAE0D2]">

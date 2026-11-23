@@ -80,7 +80,7 @@ export function SocketProvider({ children }: { children: React.ReactNode }) {
   }, [user]);
 
   return (
-    <SocketContext.Provider value={{ socket: socket || socketRef.current, isConnected }}>
+    <SocketContext.Provider value={{ socket, isConnected }}>
       {children}
     </SocketContext.Provider>
   );

@@ -23,6 +23,7 @@ import { TaskDetailModal } from "@/components/tasks/task-detail-modal";
 import { InviteMemberModal } from "@/components/members/invite-member-modal";
 import { ChatDrawer } from "@/components/chat/chat-drawer";
 import { RoleBadge } from "@/components/ui/role-badge";
+import { ProjectStatusBadge } from "@/components/projects/project-status-badge";
 import { api, ApiError } from "@/lib/api-client";
 import { Project, ProjectMemberDetail, Task, TaskStatus, UserRole } from "@/types/api";
 import { useAuth } from "@/context/auth-context";
@@ -159,6 +160,15 @@ function ProjectWorkspaceContent({
         ]}
         actions={
           <div className="flex items-center gap-2 sm:gap-2.5">
+            <ProjectStatusBadge
+              status={project.status || "todo"}
+              projectId={project._id}
+              currentUserRole={currentUserRole}
+              onStatusChanged={(newStatus) => {
+                setProject((prev) => (prev ? { ...prev, status: newStatus } : prev));
+              }}
+              size="sm"
+            />
             <button
               onClick={() => setChatOpen(!chatOpen)}
               className={`inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-editorial font-bold border transition cursor-pointer select-none ${
